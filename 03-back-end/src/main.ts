@@ -25,6 +25,8 @@ const userController = new UserController(userService);
 
 application.get("/user", userController.getAll.bind(userController));
 
+application.get("/user/:id", userController.getById.bind(userController));
+
 application.use((req,res) =>{
     res.sendStatus(404);
 })

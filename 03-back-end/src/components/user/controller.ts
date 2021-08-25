@@ -14,6 +14,27 @@ class UserController{
 
         res.send(users);
     }
+
+    async getById(req: Request, res: Response, next: NextFunction){
+
+        const id: string = req.params.id;
+
+        const userId: number = +id;
+
+        if(userId <= 0){
+            res.sendStatus(400);
+            return;
+        }
+
+        const user: UserModel|null = await this.userService.getById(userId);
+
+        if(user === null){
+            res.sendStatus(404);
+            return;
+        }
+
+        res.send(user);
+    }
 }
 
 export default UserController;
