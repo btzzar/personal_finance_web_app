@@ -1,8 +1,7 @@
 import * as express from "express";
 import * as cors from "cors";
 import Config from "./config/dev";
-import UserService from "./components/user/service";
-import UserController from "./components/user/controller";
+import UserRouter from "./components/user/router";
 
 
 const application: express.Application = express();
@@ -20,12 +19,7 @@ application.use(
     dotfiles: Config.server.static.dotfiles,
 }))
 
-const userService = new UserService();
-const userController = new UserController(userService);
-
-application.get("/user", userController.getAll.bind(userController));
-
-application.get("/user/:id", userController.getById.bind(userController));
+UserRouter.setupRoutes(application);
 
 application.use((req,res) =>{
     res.sendStatus(404);
