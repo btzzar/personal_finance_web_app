@@ -4,6 +4,7 @@ import Config from "./config/dev";
 import UserRouter from "./components/user/router";
 import * as mysql2 from "mysql2/promise";
 import IApplicationResources from "./common/IApplicationResources.interface";
+import Router from "./router";
 
 async function main() {
     
@@ -37,10 +38,17 @@ application.use(
     dotfiles: Config.server.static.dotfiles,
 }))
 
-UserRouter.setupRoutes(application, resources);
+
+Router.setupRoutes(application, resources,[
+    new UserRouter(),
+]);
 
 application.use((req,res) =>{
     res.sendStatus(404);
+})
+
+application.use((err,req,res,next) => {
+    res.status(err.status).send(err.type);
 })
 
 application.listen(Config.server.port);

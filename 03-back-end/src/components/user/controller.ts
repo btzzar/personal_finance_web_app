@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import IErrorResponse from "../../common/IErrorResponse.interface";
 import UserModel from "./model";
 import UserService from "./service";
 
@@ -26,14 +27,19 @@ class UserController{
             return;
         }
 
-        const user: UserModel|null = await this.userService.getById(userId);
+        const user: UserModel|null|IErrorResponse = await this.userService.getById(userId);
 
         if(user === null){
             res.sendStatus(404);
             return;
         }
 
-        res.send(user);
+        if(user instanceof UserModel) {
+            res.send(user);
+            return;
+        }
+
+        res.status(500).send(user);
     }
 }
 
