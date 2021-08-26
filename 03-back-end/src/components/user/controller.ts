@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import IErrorResponse from "../../common/IErrorResponse.interface";
+import { IAddUser, IAddUserValidator } from "./dto/AddUser";
 import UserModel from "./model";
 import UserService from "./service";
 
@@ -41,6 +42,22 @@ class UserController{
 
         res.status(500).send(user);
     }
+
+    async add(req: Request, res: Response, next: NextFunction){
+        const data = req.body;
+
+        if(!IAddUserValidator(data)){
+            res.status(400).send(IAddUserValidator.errors);
+            return;
+        }
+
+        const result = await this.userService.add(data as IAddUser);
+
+        console.log("kontroler" + result);
+
+        res.send(result);
+    }
+
 }
 
 export default UserController;

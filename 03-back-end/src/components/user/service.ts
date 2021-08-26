@@ -1,6 +1,7 @@
 import UserModel from "./model";
 import * as mysql2 from "mysql2/promise"
 import IErrorResponse from "../../common/IErrorResponse.interface";
+import { IAddUser } from "./dto/AddUser";
 
 class UserService {
     private db: mysql2.Connection;
@@ -24,7 +25,7 @@ class UserService {
         return item;
     }
 
-    
+
     public async getAll(): Promise<UserModel[]|IErrorResponse> {
         return new Promise<UserModel[]|IErrorResponse>(async (resolve) => {
             
@@ -74,6 +75,33 @@ class UserService {
             });
         })
         });
+    }
+
+    public async add(data: IAddUser): Promise<UserModel|IErrorResponse> {
+        return new Promise<UserModel|IErrorResponse>(async resolve => {
+            const sql = "INSERT user SET username = ?, email = ?, password_hash = ?, first_name = ?, last_name = ?";
+
+            this.db.execute(sql, [data.username, data.email, data.passwordHash, data.firstName, data.lastName])
+            .then(async result => {
+                const insertInfo: any = result[0];
+
+                const newUserId: number = +(insertInfo?.insertId);
+                
+                const newUser = await this.getById(newUserId);
+
+                console.log(newUser);
+                
+                resolve(newUser);
+            })
+            .catch(error =>{
+                
+            resolve({
+                errorCode: error?.errno,
+                errorMessage: error?.sqlMessage,
+                });
+            })
+
+        })
     }
 
 }

@@ -12,6 +12,7 @@ export default class UserRouter implements IRouter{
 
         application.get("/user",        userController.getAll.bind(userController));
         application.get("/user/:id",    userController.getById.bind(userController));
+        application.post("/user",       userController.add.bind(userController));
 
     }
 }
