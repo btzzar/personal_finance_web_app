@@ -3,6 +3,7 @@ import * as mysql2 from "mysql2/promise"
 import IErrorResponse from "../../common/IErrorResponse.interface";
 import { IAddUser } from "./dto/AddUser";
 import BaseService from "../../services/BaseService";
+import { IEditUser } from "./dto/EditUser";
 
 class UserService extends BaseService<UserModel>{
     protected async adaptModel(row:any): Promise<UserModel>{
@@ -54,6 +55,44 @@ class UserService extends BaseService<UserModel>{
             })
 
         })
+    }
+
+    public async edit(userId: number, data: IEditUser): Promise<UserModel|IErrorResponse|null>{
+        
+        //console.log("edit data: ", userId, data);
+
+        const result = await this.getById(userId);
+
+        if(result === null){
+            return null;
+        }
+
+        if(result instanceof UserModel){
+            return new Promise<UserModel|IErrorResponse>(async resolve => {
+                const sql = `UPDATE user 
+                            SET 
+                            username = ?,
+                            email = ?,
+                            password_hash = ?,
+                            first_name = ?,
+                            last_name = ?
+                            WHERE 
+                            user_id = ?;`;
+    
+                this.db.execute(sql, [data.username, data.email, data.passwordHash, data.firstName, data.lastName, userId])
+                .then(async result => {
+                    resolve(await this.getById(userId));
+                })
+                .catch(error =>{
+                    
+                resolve({
+                    errorCode: error?.errno,
+                    errorMessage: error?.sqlMessage,
+                    });
+                })
+    
+            })
+        }else return result;
     }
 
 }
