@@ -66,7 +66,7 @@ class UserController{
         const userId: number = +id;
 
         if(userId <= 0){
-            res.sendStatus(400);
+            res.status(400).send("Invalid ID");
             return;
         }
 
@@ -88,6 +88,21 @@ class UserController{
 
         res.send(result);
     }
+
+    async deleteById(req: Request, res: Response, next: NextFunction){
+        const id: string = req.params.id;
+
+        const userId: number = +id;
+
+        if(userId <= 0){
+            res.status(400).send("Invalid ID");
+            return;
+        }
+
+        res.send(await this.userService.delete(userId));
+
+    }
+
 
 }
 

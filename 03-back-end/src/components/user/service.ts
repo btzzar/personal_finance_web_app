@@ -4,6 +4,7 @@ import IErrorResponse from "../../common/IErrorResponse.interface";
 import { IAddUser } from "./dto/AddUser";
 import BaseService from "../../services/BaseService";
 import { IEditUser } from "./dto/EditUser";
+import { resourceLimits } from "worker_threads";
 
 class UserService extends BaseService<UserModel>{
     protected async adaptModel(row:any): Promise<UserModel>{
@@ -95,6 +96,45 @@ class UserService extends BaseService<UserModel>{
         }else return result;
     }
 
+    async delete(userId: number): Promise<IErrorResponse> {
+        return await this.deleteByIdFromTable("user", userId);
+    }
+    
+
+    /*async delete(userId: number): Promise<IErrorResponse> {
+
+        return new Promise<IErrorResponse> (resolve => {
+            const sql = `DELETE FROM user where user_id = ?;`;
+
+            this.db.execute(sql, [userId])
+            .then(async result => {
+
+                const deleteInfo: any = result[0];
+
+                const deletedRowCount: number = +(deleteInfo?.affectedRows);
+
+                if(deletedRowCount === 1){
+                    resolve({
+                        errorCode: 0,
+                        errorMessage: "Record is deleted",
+                        });
+                } else {
+                    resolve({
+                        errorCode: -1,
+                        errorMessage: "This record could not be deleted.",
+                        });
+                }
+            })
+            
+            .catch(error => {         
+                resolve({
+                    errorCode: error?.errno,
+                    errorMessage: error?.sqlMessage,
+                });
+            });
+        });
+
+    }*/
 }
 
 export default UserService;
