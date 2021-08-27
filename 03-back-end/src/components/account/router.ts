@@ -7,8 +7,7 @@ import AccountController from "./controller";
 export default class AccountRouter implements IRouter{
     public setupRoutes(application: express.Application, resources: IApplicationResources){
         
-        const accountService = new AccountService(resources.databaseConnection);
-        const accountController = new AccountController(accountService);
+        const accountController = new AccountController(resources);
 
         application.get("/account/:id",        accountController.getById.bind(accountController));
         application.get("/user/:uid/account",  accountController.getAllFromUser.bind(accountController));

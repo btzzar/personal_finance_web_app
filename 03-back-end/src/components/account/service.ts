@@ -7,11 +7,6 @@ import { IEditAccount } from "./dto/EditAccount";
 
 class AccountService extends BaseService<AccountModel> {
 
-        
-    constructor(db: mysql2.Connection){
-        super(db);
-    }
-
     protected async adaptModel(data: any): Promise<AccountModel> {
         const item: AccountModel = new AccountModel();
 

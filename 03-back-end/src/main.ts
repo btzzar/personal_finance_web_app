@@ -6,6 +6,8 @@ import * as mysql2 from "mysql2/promise";
 import IApplicationResources from "./common/IApplicationResources.interface";
 import Router from "./router";
 import AccountRouter from "./components/account/router";
+import UserService from "./components/user/service";
+import AccountService from "./components/account/service";
 
 async function main() {
     
@@ -24,10 +26,20 @@ const resources: IApplicationResources = {
         charset: Config.database.charset,
         timezone: Config.database.timezone,
         supportBigNumbers: true,
-    })
+    }),
 }
 
 resources.databaseConnection.connect();
+
+
+resources.services = {
+    
+        userService: new UserService(resources),
+        accountService: new AccountService(resources),
+
+}
+
+
 
 application.use(
     Config.server.static.route, 

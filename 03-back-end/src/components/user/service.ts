@@ -101,7 +101,10 @@ class UserService extends BaseService<UserModel>{
     }
     
 
-    /*async delete(userId: number): Promise<IErrorResponse> {
+    /*
+    
+    
+    async delete(userId: number): Promise<IErrorResponse> {
 
         return new Promise<IErrorResponse> (resolve => {
             const sql = `DELETE FROM user where user_id = ?;`;

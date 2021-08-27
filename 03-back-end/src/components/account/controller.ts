@@ -1,17 +1,13 @@
 import { Request, Response, NextFunction } from "express";
+import BaseController from "../../common/BaseController";
 import { IAddAccount, IAddAccountValidator } from "./dto/AddAccount";
 import { IEditAccount, IEditAccountValidator } from "./dto/EditAccount";
 import AccountModel from "./model";
 import AccountService from "./service";
 
-class AccountController{
-    private accountService: AccountService;
-
-    constructor(accountService: AccountService){
-        this.accountService = accountService;
-    }
-
-    public async getById(req: Request, res: Response, next: NextFunction){
+class AccountController extends BaseController{
+    
+    async getById(req: Request, res: Response, next: NextFunction){
         const id: string = req.params.id;
 
         const accountId: number = +id;
@@ -21,7 +17,7 @@ class AccountController{
             return;
         }
 
-        const result = await this.accountService.getById(accountId);
+        const result = await this.services.accountService.getById(accountId);
 
         
         if(result === null){
@@ -41,7 +37,7 @@ class AccountController{
 
         const userId: number = +(req.params.uid);
 
-        res.send(await this.accountService.getAllbyUserId(userId));
+        res.send(await this.services.accountService.getAllbyUserId(userId));
 
     }
 
@@ -55,7 +51,7 @@ class AccountController{
         }
 
 
-        res.send(await this.accountService.add(item as IAddAccount));
+        res.send(await this.services.accountService.add(item as IAddAccount));
 
     }
 
@@ -74,7 +70,7 @@ class AccountController{
             return;
         }
 
-        const result = await this.accountService.getById(accountId);
+        const result = await this.services.accountService.getById(accountId);
 
         console.log("RESULT: ", result)
         
@@ -90,7 +86,7 @@ class AccountController{
 
         
         
-        res.send(await this.accountService.edit(accountId, req.body as IEditAccount));
+        res.send(await this.services.accountService.edit(accountId, req.body as IEditAccount));
     }
 
 
@@ -105,7 +101,7 @@ class AccountController{
             return;
         }
 
-        res.send(await this.accountService.delete(accountId));
+        res.send(await this.services.accountService.delete(accountId));
 
     }
 

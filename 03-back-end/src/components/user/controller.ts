@@ -1,19 +1,15 @@
 import { Request, Response, NextFunction } from "express";
+import BaseController from "../../common/BaseController";
 import IErrorResponse from "../../common/IErrorResponse.interface";
 import { IAddUser, IAddUserValidator } from "./dto/AddUser";
 import { IEditUser, IEditUserValidator } from "./dto/EditUser";
 import UserModel from "./model";
 import UserService from "./service";
 
-class UserController{
-    private userService: UserService;
-
-    constructor(userService: UserService){
-        this.userService = userService;
-    }
+class UserController extends BaseController{
 
     async getAll(req: Request, res: Response, next:NextFunction) {
-        const users = await this.userService.getAll();
+        const users = await this.services.userService.getAll();
 
         res.send(users);
     }
@@ -29,7 +25,7 @@ class UserController{
             return;
         }
 
-        const user: UserModel|null|IErrorResponse = await this.userService.getById(userId);
+        const user: UserModel|null|IErrorResponse = await this.services.userService.getById(userId);
 
         if(user === null){
             res.sendStatus(404);
@@ -52,7 +48,7 @@ class UserController{
             return;
         }
 
-        const result = await this.userService.add(data as IAddUser);
+        const result = await this.services.userService.add(data as IAddUser);
 
         console.log("kontroler" + result);
 
@@ -79,7 +75,7 @@ class UserController{
 
         //console.log("Controller edit: ", userId, data);
 
-        const result = await this.userService.edit(userId, data as IEditUser);
+        const result = await this.services.userService.edit(userId, data as IEditUser);
 
         if(result === null){
             res.sendStatus(404);
@@ -99,7 +95,7 @@ class UserController{
             return;
         }
 
-        res.send(await this.userService.delete(userId));
+        res.send(await this.services.userService.delete(userId));
 
     }
 

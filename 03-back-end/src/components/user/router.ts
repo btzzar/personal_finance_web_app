@@ -7,8 +7,7 @@ import IRouter from "../../common/IRouter.interface";
 export default class UserRouter implements IRouter{
     public setupRoutes(application: express.Application, resources: IApplicationResources){
         
-        const userService = new UserService(resources.databaseConnection);
-        const userController = new UserController(userService);
+        const userController = new UserController(resources);
 
         application.get("/user",        userController.getAll.bind(userController));
         application.get("/user/:id",    userController.getById.bind(userController));
