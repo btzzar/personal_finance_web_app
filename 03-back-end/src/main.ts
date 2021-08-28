@@ -8,6 +8,10 @@ import Router from "./router";
 import AccountRouter from "./components/account/router";
 import UserService from "./components/user/service";
 import AccountService from "./components/account/service";
+import ExpenseService from "./components/expense/service";
+import ExpenseRouter from "./components/expense/router";
+import IncomeRouter from "./components/income/router";
+import IncomeService from "./components/income/service";
 
 async function main() {
     
@@ -36,7 +40,8 @@ resources.services = {
     
         userService: new UserService(resources),
         accountService: new AccountService(resources),
-
+        expenseService: new ExpenseService(resources),
+        incomeService: new IncomeService(resources),
 }
 
 
@@ -55,6 +60,8 @@ application.use(
 Router.setupRoutes(application, resources,[
     new UserRouter(),
     new AccountRouter(),
+    new ExpenseRouter(),
+    new IncomeRouter(),
 ]);
 
 application.use((req,res) =>{
