@@ -23,7 +23,7 @@ const IEditUserValidator = ajv.compile({
             maxLength:64,
             pattern: "\.com"
         },
-        passwordHash:{
+        password:{
             type: "string",
             maxLength: 255
         },
@@ -36,7 +36,7 @@ const IEditUserValidator = ajv.compile({
             maxLength: 64
         }
     },
-    required: ["username", "email", "passwordHash", "firstName", "lastName"],
+    required: ["username", "email", "password", "firstName", "lastName"],
     additionalProperties: false,
 });
 

@@ -12,6 +12,8 @@ import ExpenseService from "./components/expense/service";
 import ExpenseRouter from "./components/expense/router";
 import IncomeRouter from "./components/income/router";
 import IncomeService from "./components/income/service";
+import AuthRouter from "./components/auth/router";
+
 
 async function main() {
     
@@ -62,6 +64,7 @@ Router.setupRoutes(application, resources,[
     new AccountRouter(),
     new ExpenseRouter(),
     new IncomeRouter(),
+    new AuthRouter(),
 ]);
 
 application.use((req,res) =>{

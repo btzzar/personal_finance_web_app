@@ -1,3 +1,4 @@
+import { readFileSync } from "fs";
 import IConfig from "../common/IConfig.interface";
 
 const Config: IConfig = {
@@ -21,6 +22,18 @@ const Config: IConfig = {
         database: "aplikacija",
         charset: "utf8",
         timezone: "+01:00"
+    },
+    auth: {
+        user: {
+            algorithm: "RS256",
+            issuer: "localhost",
+            auth: {
+                duration: 60 * 2, 
+                public: readFileSync("keystore/user-auth.public", "utf-8"),
+                private: readFileSync("keystore/user-auth.private", "utf-8"),
+            }
+        },
+        allowRequestsEvenWithoutValidTokens: false,
     }
 }
 

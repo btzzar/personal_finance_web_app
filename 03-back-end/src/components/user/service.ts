@@ -5,8 +5,10 @@ import { IAddUser } from "./dto/AddUser";
 import BaseService from "../../services/BaseService";
 import { IEditUser } from "./dto/EditUser";
 import { resourceLimits } from "worker_threads";
+import * as bcrypt from "bcrypt";
 
 class UserService extends BaseService<UserModel>{
+    
     protected async adaptModel(row:any): Promise<UserModel>{
 
         const item: UserModel = new UserModel();
@@ -31,11 +33,29 @@ class UserService extends BaseService<UserModel>{
         return await this.getByIdFromTable("user", userId);
     }
 
+
+    public async getByEmail(email: string): Promise<UserModel|null> {
+        const users = await this.getAllByFieldName("user", "email", email);
+        
+        if (!Array.isArray(users) || users.length === 0){
+            return null;
+        }
+
+        return users[0];
+    }
+
+
+
+
+
     public async add(data: IAddUser): Promise<UserModel|IErrorResponse> {
         return new Promise<UserModel|IErrorResponse>(async resolve => {
+
+            const passwordHash = bcrypt.hashSync(data.password, 11);
+            
             const sql = "INSERT user SET username = ?, email = ?, password_hash = ?, first_name = ?, last_name = ?";
 
-            this.db.execute(sql, [data.username, data.email, data.passwordHash, data.firstName, data.lastName])
+            this.db.execute(sql, [data.username, data.email, passwordHash, data.firstName, data.lastName])
             .then(async result => {
                 const insertInfo: any = result[0];
 
