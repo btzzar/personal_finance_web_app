@@ -48,9 +48,21 @@ class UserController extends BaseController{
             return;
         }
 
-        const result = await this.services.userService.add(data as IAddUser);
+        const result: UserModel | IErrorResponse = await this.services.userService.add(data as IAddUser);
 
-        console.log("kontroler" + result);
+        if(!(result instanceof UserModel)){
+            if(result.errorMessage.includes("uq_user_email")){
+                return res.status(400).send("A user with this email already exists.")
+            }
+            
+            if(result.errorMessage.includes("uq_user_username")){
+                return res.status(400).send("A user with this username already exists.")
+            }
+
+            return res.status(400).send(result);
+        }
+
+        //console.log("kontroler" + result);
 
         res.send(result);
     }
@@ -76,6 +88,18 @@ class UserController extends BaseController{
         //console.log("Controller edit: ", userId, data);
 
         const result = await this.services.userService.edit(userId, data as IEditUser);
+
+        if(!(result instanceof UserModel)){
+            if(result.errorMessage.includes("uq_user_email")){
+                return res.status(400).send("A user with this email already exists.")
+            }
+            
+            if(result.errorMessage.includes("uq_user_username")){
+                return res.status(400).send("A user with this username already exists.")
+            }
+
+            return res.status(400).send(result);
+        }
 
         if(result === null){
             res.sendStatus(404);

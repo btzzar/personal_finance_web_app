@@ -21,7 +21,6 @@ const IAddUserValidator = ajv.compile({
         email:{
             type: "string",
             maxLength:64,
-            pattern: "\.com"
         },
         passwordHash:{
             type: "string",
