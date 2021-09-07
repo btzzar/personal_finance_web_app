@@ -33,7 +33,7 @@ const Config: IConfig = {
                 private: readFileSync("keystore/user-auth.private", "utf-8"),
             }
         },
-        allowRequestsEvenWithoutValidTokens: false,
+        allowRequestsEvenWithoutValidTokens: true,
     }
 }
 
