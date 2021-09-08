@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import BasePage, { BasePageProperties } from "../BaseComponent/BaseComponent";
 
-class AccountsProperties extends BasePageProperties{
+class AccountProperties extends BasePageProperties{
     match?:{
         params:{
             id: string;
@@ -10,16 +10,16 @@ class AccountsProperties extends BasePageProperties{
     }
 }
 
-class AccountsState{
+class AccountState{
     title: string = "Loading...";
     transactions: any[] = [];
 }
 
-export default class AccountsPage extends BasePage<AccountsProperties> {
+export default class AccountPage extends BasePage<AccountProperties> {
 
-    state: AccountsState;
+    state: AccountState;
 
-    constructor(props: AccountsProperties){
+    constructor(props: AccountProperties){
         super(props);
 
         this.state = {
@@ -61,7 +61,7 @@ export default class AccountsPage extends BasePage<AccountsProperties> {
         this.getAccountData();
     }
 
-    componentDidUpdate(prevProps: AccountsProperties, prevState: AccountsState){
+    componentDidUpdate(prevProps: AccountProperties, prevState: AccountState){
         if(prevProps.match?.params.id !== this.props.match?.params.id){
             this.getAccountData();
         }
@@ -81,7 +81,7 @@ export default class AccountsPage extends BasePage<AccountsProperties> {
                         this.state.transactions.map(
                             tr => (
                                 <li>
-                                    <Link to= {"/accounts/" + tr}>
+                                    <Link to= {"/account/" + tr}>
                                         Transakcija {tr}
                                     </Link>
                                 </li>
