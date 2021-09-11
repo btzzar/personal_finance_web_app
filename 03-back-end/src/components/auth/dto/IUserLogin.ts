@@ -16,10 +16,12 @@ const IUserLoginValidator = ajv.compile({
        
         email:{
             type: "string",
+            minLength: 5,
             maxLength:64,
         },
         password:{
             type: "string",
+            minLength: 3,
             maxLength: 255
         }
     },

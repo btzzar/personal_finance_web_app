@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { AppConfiguration } from "../config/app.config"
+import EventRegister from "./EventRegister";
+
 type ApiMethod = 'get' | 'post' | 'put' | 'delete';
 type ApiResponseStatus = 'ok' | 'error' | 'login';
 
@@ -7,6 +9,8 @@ interface ApiResponse{
     status: ApiResponseStatus,
     data: any
 }
+
+
 
 export default function api(
     method: ApiMethod,
@@ -35,6 +39,7 @@ export default function api(
                 const newToken: string| null = await refreshToken();
 
                 if(newToken === null){
+                    EventRegister.emit("AUTH_EVENT", "force_login");
                     return resolve({
                         status: 'login',
                         data: null,
@@ -43,6 +48,8 @@ export default function api(
 
                 saveAuthToken(newToken);
                 console.log("new token saved")
+                EventRegister.emit("AUTH_EVENT", "force_login");
+
 
                 
                 //repeat request
@@ -51,7 +58,8 @@ export default function api(
                         resolve(res);
                     })
                     .catch(err => {
-                        return resolve({
+
+                        resolve({
                             status: 'login',
                             data: null,
                         });
@@ -75,7 +83,7 @@ export default function api(
 
             resolve({
                 status: 'error',
-                data: '' + err?.response,
+                data: err?.response
             });
         })
     })

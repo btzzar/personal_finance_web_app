@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AccountPage from '../AccountPage/AccountPage';
 import HomePage from '../HomePage/HomePage';
 import TopMenu from '../TopMenu/TopMenu';
+import UserLogin from '../UserLogin/UserLogin';
 import './Application.sass';
 
 function Application() {
@@ -20,6 +21,8 @@ function Application() {
             <Route path="/account/:id?" component = {AccountPage} />
 
             <Route path="/profile">My Profile</Route>
+
+            <Route path="/auth/user/login" component={UserLogin} />
 
           </Switch>
         </div>
