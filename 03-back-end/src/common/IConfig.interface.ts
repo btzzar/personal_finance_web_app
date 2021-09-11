@@ -8,6 +8,7 @@ interface TokenKeyOptions {
 
 interface TokenOptions {
     auth: TokenKeyOptions,
+    refresh: TokenKeyOptions,
     issuer: string;
     algorithm: Algorithm,
 }

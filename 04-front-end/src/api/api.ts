@@ -11,9 +11,11 @@ interface ApiResponse{
 export default function api(
     method: ApiMethod,
     path: string, 
-    body: any | undefined = undefined
+    body: any | undefined = undefined,
+    attemptToRefresh: boolean = true,
 ): Promise<ApiResponse> {
     return new Promise<ApiResponse> (resolve => {
+        console.log("Executing request", path);
         axios({
             method: method,
             baseURL: AppConfiguration.API_URL,
@@ -21,14 +23,42 @@ export default function api(
             data: body ? JSON.stringify(body) : '',
             headers:{
                 'Content-Type':'application/json',
-                "Authorization": 'Bearer NO-TOKEN'
+                "Authorization": 'Bearer ' + getAuthToken(),
             }
         })
         .then(res => responseHandler(res, resolve))
-        .catch(err =>{
-            //401 unauthorized
-            //403 access denied
-            //...
+        .catch(async err =>{
+            const emsg: string = "" + err;
+            if(attemptToRefresh && emsg.includes("401")){
+                console.log("refresh is happening");
+
+                const newToken: string| null = await refreshToken();
+
+                if(newToken === null){
+                    return resolve({
+                        status: 'login',
+                        data: null,
+                    });
+                }
+
+                saveAuthToken(newToken);
+                console.log("new token saved")
+
+                
+                //repeat request
+                api(method, path, body, false)
+                    .then(res => { 
+                        resolve(res);
+                    })
+                    .catch(err => {
+                        return resolve({
+                            status: 'login',
+                            data: null,
+                        });
+                    })
+
+                return;
+            }
             if (err?.response?.status === 401) {
                 return resolve({
                     status: 'login',
@@ -58,9 +88,62 @@ function responseHandler(res: AxiosResponse<any>, resolve:(data: ApiResponse) =>
             data: '' + res,
         });
     }
-
+    console.log("Received response")
     resolve({
         status: 'ok',
         data: res.data,
     });
+}
+
+function getAuthToken(): string {
+    return localStorage.getItem("user-auth-token") ?? '';
+}
+
+function getRefreshToken(): string {
+    return localStorage.getItem("user-refresh-token") ?? '';
+}
+
+export function saveAuthToken(token:string){
+    localStorage.setItem("user-auth-token", token);
+}
+
+
+export function saveRefreshToken(token:string){
+    localStorage.setItem("user-refresh-token", token);
+}
+
+export function saveIdentity(identity: string){
+    localStorage.setItem("user-identity", identity)
+}
+
+export function getIdentity(): string{
+    return localStorage.getItem("user-identity") ?? '';  
+}
+
+function refreshToken(): Promise<string|null> {
+    return new Promise<string|null>(resolve => {
+        axios({
+            method: 'post',
+            baseURL: AppConfiguration.API_URL,
+            url: "/auth/user/refresh",
+            data: JSON.stringify({
+                refreshToken: getRefreshToken()
+            }),
+            headers:{
+                'Content-Type':'application/json',
+            }
+        })
+        .then(res => refreshTokenResponseHandler(res, resolve))
+        .catch(async err =>{
+            resolve(null);
+        });
+    });
+}
+
+function refreshTokenResponseHandler(res: AxiosResponse<any>, resolve: (data: string|null) => void){
+    if(res.status !== 200){
+        return resolve(null);
+    }
+
+    resolve(res.data?.authToken);
 }

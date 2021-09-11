@@ -20,11 +20,11 @@ export default class AuthMiddleware {
         const [tokenType, tokenString] = token.trim().split(" ");
 
         if( tokenType !== "Bearer"){
-            return res.status(400).send("Invalid auth token type.");
+            return res.status(401).send("Invalid auth token type.");
         }
 
         if( typeof tokenString !== "string" || tokenString.length === 0){
-            return res.status(400).send("Invalid auth token length.");
+            return res.status(401).send("Invalid auth token length.");
         }
 
         let result; 
@@ -32,11 +32,11 @@ export default class AuthMiddleware {
             result = jwt.verify(tokenString, Config.auth.user.auth.public);
         }
         catch(e){
-            return res.status(500).send("Token validation error: " + e?.message);
+            return res.status(401).send("Token validation error: " + JSON.stringify(e?.message));
         }
 
         if(typeof result !== "object"){
-            return res.status(400).send("Bad auth token data.");
+            return res.status(401).send("Bad auth token data.");
         }
 
         const data: ITokenData = result as ITokenData;
