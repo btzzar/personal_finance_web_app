@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import BasePage, { BasePageProperties } from "../BaseComponent/BaseComponent";
+import AccountModel from "../../../../03-back-end/src/components/account/model";
+import axios from "axios";
 
 class AccountProperties extends BasePageProperties{
     match?:{
@@ -12,7 +14,7 @@ class AccountProperties extends BasePageProperties{
 
 class AccountState{
     title: string = "Loading...";
-    transactions: any[] = [];
+    accounts: AccountModel[] = [];
 }
 
 export default class AccountPage extends BasePage<AccountProperties> {
@@ -24,7 +26,7 @@ export default class AccountPage extends BasePage<AccountProperties> {
 
         this.state = {
             title: "",
-            transactions: []
+            accounts: []
         }
     }
 
@@ -32,23 +34,53 @@ export default class AccountPage extends BasePage<AccountProperties> {
         const id = this.getAccountId();
 
         if(id === null){
-            this.setState({
-                title: "All accounts",
-                transactions: []
-            });
+            this.apiGetAllAccounts();
         }else{
-            this.setState({
-                title: "Transactions for account with id " + id,
-                transactions: [
-                    "1",
-                    "2",
-                    "3",
-                    "4"
-                ]
-            });
+            //this.apiGetAccountWithId();
         }
 
         //set title and 
+    }
+    apiGetAllAccounts() {
+        //get the user id and create a string including it
+        //currently this is simulated data
+        
+        axios({
+            method: "get",
+            baseURL: "http://localhost:40090",
+            url: "/user/1/account",
+            timeout: 10000,
+            // headers:{
+            //     Authorization: "Bearer..."
+            // },
+            // withCredentials: true,
+            // maxRedirects: 0,
+        })
+        .then(res=>{
+            if(!Array.isArray(res.data)){
+                throw new Error("Invalid data");
+            }
+
+            this.setState({
+                title: "Accounts",
+                accounts: res.data,
+            })
+
+        }).catch(err => {
+            const errorMsg = ""+err;
+
+            if(errorMsg.includes("404")){
+                this.setState({
+                    title: "No accounts found",
+                    accounts: []
+                })
+            }else{
+                this.setState({
+                    title: "Unable to load accounts",
+                    accounts: []
+                })
+            }
+        })
     }
 
     private getAccountId(): number|null {
@@ -78,11 +110,11 @@ export default class AccountPage extends BasePage<AccountProperties> {
                 <p>Transakcije</p>
                 <ul>
                     {
-                        this.state.transactions.map(
-                            tr => (
-                                <li>
-                                    <Link to= {"/account/" + tr}>
-                                        Transakcija {tr}
+                        this.state.accounts.map(
+                            acc => (
+                                <li key={acc.accountId}>
+                                    <Link to= {"/account/" + acc.accountId}>
+                                        Akaunt {acc.accountId}
                                     </Link>
                                 </li>
                             )

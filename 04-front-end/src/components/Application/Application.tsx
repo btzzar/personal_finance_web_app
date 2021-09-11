@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Container } from 'react-bootstrap';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import AccountsPage from '../AccountPage/AccountPage';
+import AccountPage from '../AccountPage/AccountPage';
 import HomePage from '../HomePage/HomePage';
 import TopMenu from '../TopMenu/TopMenu';
 import './Application.sass';
@@ -17,7 +17,7 @@ function Application() {
           <Switch>
             <Route exact path="/" component = {HomePage} />
 
-            <Route path="/accounts/:id?" component = {AccountsPage} />
+            <Route path="/account/:id?" component = {AccountPage} />
 
             <Route path="/profile">My Profile</Route>
 
