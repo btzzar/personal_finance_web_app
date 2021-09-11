@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import BasePage, { BasePageProperties } from "../BaseComponent/BaseComponent";
 import AccountModel from "../../../../03-back-end/src/components/account/model";
-import axios from "axios";
+import AccountService from "../../services/AccountService";
 
 class AccountProperties extends BasePageProperties{
     match?:{
@@ -36,16 +36,54 @@ export default class AccountPage extends BasePage<AccountProperties> {
         if(id === null){
             this.apiGetAllAccounts();
         }else{
-            //this.apiGetAccountWithId();
+            this.apiGetAccountWithId(id);
         }
 
         //set title and 
     }
+    apiGetAccountWithId(id: number) {
+        AccountService.getAccountById(id)
+        .then(result => {
+            if(result === null){
+                return this.setState({
+                    title: "Account not found",
+                    accounts: []
+                })
+            }
+
+            this.setState({
+                title: result.name,
+                accounts: [],
+            })
+
+
+
+        })
+
+    }
+
+
+
+
     apiGetAllAccounts() {
+        AccountService.getAllAccounts()
+        .then(accounts => {
+            if(accounts.length === 0){
+                return this.setState({
+                    title: "No accounts found",
+                    accounts: []
+                })
+            }
+            this.setState({
+                title: "Accounts",
+                accounts: accounts,
+            })
+
+        })
         //get the user id and create a string including it
         //currently this is simulated data
         
-        axios({
+        /*axios({
             method: "get",
             baseURL: "http://localhost:40090",
             url: "/user/1/account",
@@ -80,7 +118,7 @@ export default class AccountPage extends BasePage<AccountProperties> {
                     accounts: []
                 })
             }
-        })
+        })*/
     }
 
     private getAccountId(): number|null {
