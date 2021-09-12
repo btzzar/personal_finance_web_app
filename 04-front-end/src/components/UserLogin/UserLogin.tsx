@@ -95,13 +95,13 @@ export default class UserLogin extends BaseComponent<{}>{
     
     private handleAuthEvent(status: string, data: any){
         if(status === "user_login_failed"){
-            if(data?.data[0]?.instancePath==="/email")
+            if(Array.isArray(data?.data) && data?.data[0]?.instancePath==="/email")
             {
                 return this.setState({
                     message: "Invalid email: " + data?.data[0]?.message,
                 })
             }
-            if(data?.data[0]?.instancePath==="/password")
+            if(Array.isArray(data?.data) && data?.data[0]?.instancePath==="/password")
             {
                 return this.setState({
                     message: "Invalid password: " + data?.data[0]?.message,
@@ -114,11 +114,10 @@ export default class UserLogin extends BaseComponent<{}>{
                 })
             }
 
-            if(data == "Invalid user password."){
+            if(data.includes("Access denied")){
                 return this.setState({
                     message: "Wrong password.",
                 })
-                
             }
 
         }
@@ -127,10 +126,10 @@ export default class UserLogin extends BaseComponent<{}>{
             return this.setState({
                 email: "",
                 password: "",
+                message: "",
                 isLoggedIn: true
             })
         }
-        console.log(status, data, this.state);
     }
 
 }

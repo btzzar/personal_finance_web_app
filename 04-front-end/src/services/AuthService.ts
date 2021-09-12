@@ -18,11 +18,11 @@ export default class AuthService {
 
                 EventRegister.emit("AUTH_EVENT", "user_login");
             }else{
-                EventRegister.emit("AUTH_EVENT", ["user_login_failed",res.data]);
+                EventRegister.emit("AUTH_EVENT", "user_login_failed",res.data);
             }
         })
         .catch(err => {
-            EventRegister.emit("AUTH_EVENT", ["user_login_failed", err]);
+            EventRegister.emit("AUTH_EVENT", "user_login_failed", err);
         });
 
 
