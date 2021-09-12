@@ -4,6 +4,8 @@ import BasePage, { BasePageProperties } from "../BaseComponent/BaseComponent";
 import AccountModel from "../../../../03-back-end/src/components/account/model";
 import AccountService from "../../services/AccountService";
 import EventRegister from "../../api/EventRegister";
+import TransactionService from "../../services/TransactionService";
+
 
 class AccountProperties extends BasePageProperties{
     match?:{
@@ -17,6 +19,7 @@ class AccountState{
     title: string = "Loading...";
     accounts: AccountModel[] = [];
     isLoggedIn: boolean = true;
+    transactions: any[] = [];
 }
 
 export default class AccountPage extends BasePage<AccountProperties> {
@@ -30,6 +33,7 @@ export default class AccountPage extends BasePage<AccountProperties> {
             title: "",
             accounts: [],
             isLoggedIn: true,
+            transactions: [],
         }
     }
 
@@ -39,11 +43,49 @@ export default class AccountPage extends BasePage<AccountProperties> {
         if(id === null){
             this.apiGetAllAccounts();
         }else{
-            this.apiGetAccountWithId(id);
+            //this.apiGetAccountWithId(id);
+            this.apiGetTransactionsWithAccountId(id);
         }
-
-        //set title and 
     }
+    apiGetTransactionsWithAccountId(id: number) {
+        TransactionService.getAllTransactionsByAccountId(id)
+        .then(transactions => {
+            
+            this.setState({
+                title: "Transactions",
+                transactions: transactions,
+            })
+
+        })
+    }
+
+    apiGetLastTransactionWithAccountId(id: number): string|void{
+
+        let t: any[] = [];
+        TransactionService.getAllTransactionsByAccountId(id)
+        .then(transactions => {
+            //log("Transakcije od akaunta: ",id, transactions)
+            // if(transactions.length === 0){
+            //     return this.setState({
+            //         title: "No transactions found",
+            //         transactions: []
+            //     })
+            // }
+            
+            return ""+ transactions[0];
+            // console.log("T:", t)
+            // t.sort(function(a,b){
+            //     return b.createdAt.getDate() - a.createdAt.getDate();
+            // });
+            // console.log("SORTED T:", t)
+            
+        })
+        //console.log("Taaaaa:", t)
+        return "asdf";
+    }
+
+    
+
     apiGetAccountWithId(id: number) {
         AccountService.getAccountById(id)
         .then(result => {
@@ -53,14 +95,10 @@ export default class AccountPage extends BasePage<AccountProperties> {
                     accounts: []
                 })
             }
-
             this.setState({
                 title: result.name,
                 accounts: [],
             })
-
-
-
         })
 
     }
@@ -131,20 +169,38 @@ export default class AccountPage extends BasePage<AccountProperties> {
             
                 <h1> {this.state.title} </h1>
 
-                <p>Transakcije</p>
+                <p>Racuni</p>
                 <ul>
                     {
                         this.state.accounts.map(
                             acc => (
                                 <li key={acc.accountId}>
-                                    <Link to= {"/account/" + acc.accountId}>
-                                        Akaunt {acc.accountId}
-                                    </Link>
+                                    {   <Link to= {"/account/" + acc.accountId + "/transaction"}>
+                                            Akaunt {acc.accountId}
+                                        </Link> 
+                                    }
                                 </li>
                             )
                         )
                     }   
                 </ul>
+
+
+                {/* <p>{this.state.title}</p>
+                <ul>
+                    {
+                        this.state.transactions.map(
+                            tr => (
+                                <li key={Math.random()}>
+                                    <Link to= {"/account/" + tr.expenseId}>
+                                        Transakcija {tr.expenseId}
+                                    </Link>
+                                </li>
+                            )
+                        )
+                    }   
+                </ul> */}
+           
            
             </>
 

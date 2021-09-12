@@ -35,7 +35,7 @@ export default class UserLogout extends React.Component {
         if(this.state.logoutDone){
             return (
                 <Redirect to="/auth/user/login" />
-            )
+               )
         }
 
         return (

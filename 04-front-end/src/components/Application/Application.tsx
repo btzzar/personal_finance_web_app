@@ -6,6 +6,7 @@ import EventRegister from '../../api/EventRegister';
 import AccountPage from '../AccountPage/AccountPage';
 import HomePage from '../HomePage/HomePage';
 import TopMenu from '../TopMenu/TopMenu';
+import TransactionPage from '../TransactionPage/TransactionPage';
 import UserLogin from '../UserLogin/UserLogin';
 import UserLogout from '../UserLogout/UserLogout';
 import './Application.sass';
@@ -73,13 +74,15 @@ private checkOk(){
             <Switch>
               <Route exact path="/" component = {HomePage} />
 
-              <Route path="/account/:id?" component = {AccountPage} />
+              <Route exact path="/account/:id?" component = {AccountPage} />
 
               <Route path="/profile">My Profile</Route>
 
               <Route path="/auth/user/login" component={UserLogin} />
 
               <Route path="/auth/user/logout" component={UserLogout} />
+
+              <Route path="/account/:id?/transaction" component={TransactionPage} />
 
             </Switch>
           </div>
