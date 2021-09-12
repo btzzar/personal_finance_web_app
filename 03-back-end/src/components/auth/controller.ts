@@ -98,4 +98,8 @@ export default class AuthController extends BaseController{
         }
 
     }
+
+    public sendOk(req: Request, res: Response){
+        res.send("OK");
+    }
 }

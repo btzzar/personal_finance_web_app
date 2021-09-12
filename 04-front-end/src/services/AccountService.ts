@@ -1,5 +1,6 @@
 import AccountModel from "../../../03-back-end/src/components/account/model";
 import api from "../api/api";
+import EventRegister from "../api/EventRegister";
 
 export default class AccountService{
     public static getAllAccounts(): Promise<AccountModel[]>{
@@ -7,7 +8,9 @@ export default class AccountService{
             api('get', '/user/1/account')
             .then(res => {
                 if(res?.status !== 'ok'){
-                    //emit event
+                    if(res.status === "login"){
+                        EventRegister.emit("AUTH_EVENT", "force_login")
+                    }
                     resolve([]);
                 }
                 console.log(res?.data);
@@ -22,7 +25,9 @@ export default class AccountService{
             api('get', '/account/' + accountId)
             .then(res => {
                 if(res?.status !== 'ok'){
-                    //emit event
+                    if(res.status === "login"){
+                        EventRegister.emit("AUTH_EVENT", "force_login")
+                    }
                     resolve(null);
                 }
 

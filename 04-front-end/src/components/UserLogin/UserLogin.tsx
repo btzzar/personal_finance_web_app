@@ -27,13 +27,14 @@ export default class UserLogin extends BaseComponent<{}>{
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         EventRegister.on("AUTH_EVENT", this.handleAuthEvent.bind(this));
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         EventRegister.off("AUTH_EVENT", this.handleAuthEvent.bind(this));
     }
+
 
     renderMain(): JSX.Element  {
 
