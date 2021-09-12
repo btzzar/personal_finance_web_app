@@ -12,7 +12,7 @@ export default class UserRouter implements IRouter{
 
         application.get("/user", AuthMiddleware.verifyAuthToken,        userController.getAll.bind(userController));
         application.get("/user/:id",AuthMiddleware.verifyAuthToken,     userController.getById.bind(userController));
-        application.post("/user",  AuthMiddleware.verifyAuthToken,      userController.add.bind(userController));
+        application.post("/user",                                       userController.add.bind(userController));
         application.put("/user/:id", AuthMiddleware.verifyAuthToken,    userController.edit.bind(userController));
         application.delete("/user/:id",AuthMiddleware.verifyAuthToken,  userController.deleteById.bind(userController));
 

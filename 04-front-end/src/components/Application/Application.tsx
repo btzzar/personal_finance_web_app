@@ -9,6 +9,7 @@ import TopMenu from '../TopMenu/TopMenu';
 import TransactionPage from '../TransactionPage/TransactionPage';
 import UserLogin from '../UserLogin/UserLogin';
 import UserLogout from '../UserLogout/UserLogout';
+import UserRegister from '../UserRegister/UserRegister';
 import './Application.sass';
 
 class ApplicationState {
@@ -78,6 +79,7 @@ private checkOk(){
 
               <Route path="/profile">My Profile</Route>
 
+              <Route path="/auth/user/register" component={UserRegister} />
               <Route path="/auth/user/login" component={UserLogin} />
 
               <Route path="/auth/user/logout" component={UserLogout} />

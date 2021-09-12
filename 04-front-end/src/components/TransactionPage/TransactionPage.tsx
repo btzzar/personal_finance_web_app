@@ -18,8 +18,8 @@ class TransactionProperties extends BasePageProperties{
 class TransactionState{
     transactions: any[] = [];
     loading: boolean = false;
-    // currentPage: number = 1;
-    // transactionsPerPage: number = 10;    
+    reloaded:boolean = false;
+     
 }
 
 
@@ -34,8 +34,8 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
         this.state = {
             transactions: [],
             loading: true,
-            // currentPage: 1,
-            // transactionsPerPage: 10,
+            reloaded: false,
+            
         }
     }
 
@@ -44,9 +44,22 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
 
         return id ? +(id) : null;
     }
+    getTransactionData(id: number | null) {
+        if(id !== null)
+        TransactionService.getAllTransactionsByAccountId(id)
+        .then(transactions => {
+            
+            this.setState({
+                transactions: transactions,
+                loading: false,
+            })
+            console.log("TR PAGE Transakcije: ", this.state.transactions)
+        })
+    }
 
     componentDidMount(){
-        this.getTransactionData(this.getAccountId());
+       this.getTransactionData(this.getAccountId());
+       
         EventRegister.on("AUTH_EVENT", this.authEventHandler.bind(this));
     }
 
@@ -64,29 +77,14 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
 
     private authEventHandler(){
 
-    }
+    }   
+    
 
 
-    getTransactionData(id: number | null) {
-        if(id !== null)
-        TransactionService.getAllTransactionsByAccountId(id)
-        .then(transactions => {
-            console.log("TR PAGE Transakcije: ", transactions)
-            this.setState({
-                transactions: transactions,
-                loading: false,
-            })
-        })
-    }
 
 
     renderMain(): JSX.Element {
-        // const idxOfLastTransaction = this.state.currentPage * this.state.transactionsPerPage;
-
-        // const idxOfFirstTransaction = idxOfLastTransaction - this.state.transactionsPerPage;
-
-        // const currentTransactions = this.state.transactions.slice(idxOfFirstTransaction,idxOfLastTransaction);
-
+       
         const columns = [
             { dataField: "category", text: "Kategorija"},
             { dataField: "value", text: "Vrednost"},
@@ -94,13 +92,25 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
 
         ]
 
+        if(this.state.loading){
+            return (
+                <>Loading...</>
+            )
+
+        }else {
         return(
+          
+            <>
             <BootstrapTable
                 keyField={"expenseId"}
                 data={this.state.transactions}
                 columns={columns}
                 pagination={paginationFactory({})}
+                //sort={ { dataField: "category", order: 'desc' }}
             />
+            </>
+            
         )
+    }
     }
 }
