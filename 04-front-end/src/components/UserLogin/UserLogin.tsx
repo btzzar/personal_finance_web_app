@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
+import { Redirect } from "react-router";
 import EventRegister from "../../api/EventRegister";
 import AuthService from "../../services/AuthService";
 import BaseComponent from "../BaseComponent/BaseComponent";
@@ -37,6 +38,11 @@ export default class UserLogin extends BaseComponent<{}>{
 
 
     renderMain(): JSX.Element  {
+        if(this.state.isLoggedIn){
+            return (
+                <Redirect to="/account" />
+            )
+        }
 
         return (
             <Row>

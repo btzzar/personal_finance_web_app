@@ -9,9 +9,9 @@ import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.m
 
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Application />
-  </React.StrictMode>,
+  
+  <Application />,
+  
   document.getElementById('root')
 );
 

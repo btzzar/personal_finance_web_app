@@ -3,7 +3,8 @@ import TransactionService from "../../services/TransactionService";
 import BasePage, { BasePageProperties } from "../BaseComponent/BaseComponent";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import * as ReactBootstrap from "react-bootstrap"
+import { Button, Card, Col, Dropdown, Form, FormGroup, Row } from "react-bootstrap";
+
 
 
 
@@ -19,7 +20,11 @@ class TransactionState{
     transactions: any[] = [];
     loading: boolean = false;
     reloaded:boolean = false;
-     
+    addedCat: string = "";
+    addedVal: number = 0;
+    addedType: "expense" | "income" | "" = "";
+    toggleAdd: boolean = false;
+    toggleList: boolean = false;
 }
 
 
@@ -35,7 +40,11 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
             transactions: [],
             loading: true,
             reloaded: false,
-            
+            addedCat: "",
+            addedVal: 0,
+            addedType: "",
+            toggleAdd: false,
+            toggleList: false,
         }
     }
 
@@ -79,7 +88,15 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
 
     }   
     
-
+    
+    private onChangeInput(field: "addedCat" | "addedVal"): 
+    (event: React.ChangeEvent<HTMLInputElement>) => void {
+    return (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            [field]: event.target.value,
+            })
+        }
+    }    
 
 
 
@@ -91,7 +108,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
             { dataField: "createdAt", text: "Datum transakcije"}
 
         ]
-
+        
         if(this.state.loading){
             return (
                 <>Loading...</>
@@ -99,18 +116,87 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
 
         }else {
         return(
-          
             <>
-            <BootstrapTable
-                keyField={"expenseId"}
-                data={this.state.transactions}
-                columns={columns}
-                pagination={paginationFactory({})}
-                //sort={ { dataField: "category", order: 'desc' }}
-            />
+            {
+            this.state.toggleAdd ? 
+            (
+            <Card className="p-3 mb-5">
+                <Card.Title><b>Dodavanje transakcije</b></Card.Title>
+                <Card.Text as="div">
+                    <Col xs={12} md={6}>
+                
+                                    <FormGroup>
+                                        <Form.Label>Kategorija</Form.Label>
+                                        <Form.Control   type="text" 
+                                                        placeholder="Unesite kategoriju transakcije"  
+                                                        value={this.state.addedCat}
+                                                        onChange = {this.onChangeInput("addedCat")} />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Form.Label>Iznos</Form.Label>
+                                        <Form.Control   type="text" 
+                                                        placeholder="Unesite iznos transakcije" 
+                                                        value={this.state.addedVal}
+                                                        onChange = {this.onChangeInput("addedVal")}
+                                                        />
+                                    </FormGroup>
+                                    <FormGroup className= "mt-3">
+                                    <Form.Check
+                                        inline
+                                        label="Dohodak"
+                                        name="group1"
+                                        type= 'radio'
+                                        id='inline-radio-1'
+                                    />
+                                    <Form.Check
+                                        inline
+                                        label="Trošak"
+                                        name="group1"
+                                        type= 'radio'
+                                        id='inline-radio-2'
+                                    />
+                                     </FormGroup>
+
+                                    <FormGroup>
+                                    <Button variant="primary" className="mt-3"
+                                    onClick={() => this.handleAddButtonClick()}> Dodaj </Button>
+                                    </FormGroup>
+                                    
+                    </Col>
+                </Card.Text>
+                </Card>)
+                : 
+                                    (<Button variant="primary" className="mt-3 mb-3"
+                                    onClick={() => this.setState({toggleAdd: true})}> Dodaj Transakciju</Button>)
+                                    
+                }
+                {   
+                    this.state.toggleList ? 
+                    (<BootstrapTable 
+                        keyField={"expenseId"}
+                        data={this.state.transactions}
+                        columns={columns}
+                        pagination={paginationFactory({})}
+                        //sort={ { dataField: "category", order: 'desc' }}
+                    />)
+                    :
+                    (<Button variant="primary" className="m-3"
+                    onClick={() => this.setState({toggleList: true})}> Prikaži listu transakcija</Button>)
+
+                }
             </>
             
         )
     }
+    }
+    handleAddButtonClick(): void {
+
+        
+
+
+
+
+
+       this.setState({ toggleAdd: false})
     }
 }
