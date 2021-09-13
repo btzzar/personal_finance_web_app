@@ -1,4 +1,4 @@
-import api, { saveAuthToken, saveRefreshToken } from "../api/api";
+import api, { saveAuthToken, saveId, saveRefreshToken } from "../api/api";
 import EventRegister from "../api/EventRegister";
 
 export interface IUserData {
@@ -60,9 +60,12 @@ export default class AuthService {
             if(res.status === "ok"){
                 const authToken     = res?.data.authToken ?? "";
                 const refreshToken  = res?.data.refreshToken ?? "";
-
+                const id = res?.data.id;
                 saveAuthToken(authToken);
                 saveRefreshToken(refreshToken);
+                //console.log("USER ID TO BE SAVED", id);
+                saveId(id);
+                
 
                 EventRegister.emit("AUTH_EVENT", "user_login");
             }else{
@@ -72,10 +75,17 @@ export default class AuthService {
         .catch(err => {
             EventRegister.emit("AUTH_EVENT", "user_login_failed", err);
         });
-
-
-
-
-
     }
+
+    // public static getAllUsers(): any{
+    //     api("get", "user")
+    //     .then(res => {
+    //         if(res.status === "ok"){
+    //             console.log(res.data);
+    //             if(Array.isArray(res.data)){
+    //                 return res.data;
+    //             }
+    //         }
+    //     })
+    // }
 }

@@ -5,6 +5,9 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { Alert, Button, Card, Col, Dropdown, Form, FormGroup, Row } from "react-bootstrap";
 import AccountService from "../../services/AccountService";
+import AuthService from "../../services/AuthService";
+import Chart from "react-google-charts";
+
 
 
 
@@ -28,6 +31,9 @@ class TransactionState{
     toggleList: boolean = false;
     currency: "eur" | "usd" | "rsd" | "gbp" | "" = "";
     message: string = "";
+    toggleGraph: boolean = false;
+    chartExpenses: any[] = [];
+    chartIncomes: any[] = [];
 }
 
 
@@ -49,7 +55,10 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
             toggleAdd: false,
             toggleList: false,
             currency: "",
-            message: ""
+            message: "",
+            toggleGraph: false,
+            chartExpenses: [],
+            chartIncomes: [],
         }
     }
 
@@ -84,6 +93,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                 transactions: transactions,
                 loading: false,
             })
+            
             //console.log("TR PAGE Transakcije: ", this.state.transactions)
         })
     }
@@ -91,7 +101,6 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
     componentDidMount(){
        this.getTransactionData(this.getAccountId());
        this.getCurrency();
-       
         EventRegister.on("AUTH_EVENT", this.authEventHandler.bind(this));
     }
 
@@ -121,6 +130,71 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
             })
         }
     }    
+
+    private onlyUnique(value: string, index: number, self:any) {
+        return self.indexOf(value) === index;
+      }
+
+
+    private prepareExpensesForChart(){
+        var data: any[][] = [["Rashod", "Vrednost"]];
+        var transactionData = this.state.transactions;
+
+        var keys = [];
+        keys = transactionData.map((e)=>{
+            if(e.expenseId !== undefined) return e.category
+        })
+       
+        var uniqueKeys = keys.filter(this.onlyUnique);
+
+        
+        
+        uniqueKeys.map((u) => {
+            let sum = 0;
+            transactionData.map((t)=>{
+                if(u == t.category){
+                    sum +=  t.value;
+                }
+            })
+            data.push([u, sum]);
+        })
+
+        console.log("Pripremljena data: ", data);
+        this.setState({
+            chartExpenses: data
+        })
+    }
+
+    private prepareIncomesForChart(){
+        var data: any[][] = [["Prihod", "Vrednost"]];
+        var transactionData = this.state.transactions;
+        console.log("TransactionData: ", transactionData);
+
+        var keys = [];
+        keys = transactionData.map((e)=>{
+            if(e.incomeId !== undefined) return e.category
+        })
+        console.log(keys);
+
+        var uniqueKeys = keys.filter(this.onlyUnique);
+
+        console.log(uniqueKeys);
+        
+        uniqueKeys.map((u) => {
+            let sum = 0;
+            transactionData.map((t)=>{
+                if(u == t.category){
+                    sum +=  t.value;
+                }
+            })
+            data.push([u, sum]);
+        })
+
+        console.log("Pripremljena income data: ", data);
+        this.setState({
+            chartIncomes: data
+        })
+    }
 
     
 
@@ -212,6 +286,8 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                                     onClick={() => this.setState({toggleAdd: true})}> Dodaj Transakciju</Button>)
                                     
                 }
+                <Button variant="primary" className="m-3"
+                    onClick={() => this.setState({toggleList: !this.state.toggleList})}> Prikaži listu transakcija</Button>
                 {   
                     this.state.toggleList ? 
                     (<BootstrapTable 
@@ -221,15 +297,55 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                         pagination={paginationFactory({})}
                         //sort={ { dataField: "category", order: 'desc' }}
                     />)
-                    :
-                    (<Button variant="primary" className="m-3"
-                    onClick={() => this.setState({toggleList: true})}> Prikaži listu transakcija</Button>)
+                    : <></>
+                }
+                    
 
+                
+                <Button variant="primary" 
+                    onClick={ () => this.handleChartClick() }> Prikaži grafikone</Button>
+                {
+                    this.state.toggleGraph ?
+                 (<Row> 
+                     <Col><Chart
+                    width={'500px'}
+                    height={'300px'}
+                    chartType="PieChart"
+                    loader={<div>Loading Chart</div>}
+                    data={this.state.chartExpenses}
+                    options={{
+                        title: 'Moji Rashodi',
+                        is3D: true,
+                    }}
+                    rootProps={{ 'data-testid': '2' }}
+                    />
+                    </Col>
+                    <Col>
+                    <Chart
+                    width={'500px'}
+                    height={'300px'}
+                    chartType="PieChart"
+                    loader={<div>Loading Chart</div>}
+                    data={this.state.chartIncomes}
+                    options={{
+                        title: 'Moji Prihodi',
+                        is3D: true,
+                    }}
+                    rootProps={{ 'data-testid': '1' }}
+                    />
+                    </Col>
+                    </Row>) : <></>
                 }
             </>
             
         )
         }
+    }
+
+    handleChartClick(){
+        this.prepareExpensesForChart(); 
+        this.prepareIncomesForChart(); 
+        this.setState({toggleGraph: !this.state.toggleGraph})
     }
 
     checkInputs(): boolean{
@@ -263,7 +379,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
             "currency": this.state.currency
         }
 
-        
+           
         
         if(this.checkInputs() && this.state.addedType){
             TransactionService.addTransaction(this.state.addedType, data)
@@ -274,14 +390,17 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                         addedCat: "",
                         addedVal: 0,
                         addedType: "",
-                        toggleAdd: false})
+                        toggleAdd: false,
+                        toggleList: false
+                    })
+                    this.getTransactionData(this.getAccountId());  
                 }else{
                     //console.log("NEMERE")
-                    console.log(res.message)
+                    //console.log(res.message)
                 }
             })                
         }
-
+        
 
        
     }

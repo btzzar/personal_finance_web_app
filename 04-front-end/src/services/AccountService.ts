@@ -3,9 +3,9 @@ import api from "../api/api";
 import EventRegister from "../api/EventRegister";
 
 export default class AccountService{
-    public static getAllAccounts(): Promise<AccountModel[]>{
+    public static getAllAccounts(id: number): Promise<AccountModel[]>{
         return new Promise<AccountModel[]>(resolve => {
-            api('get', '/user/1/account')
+            api('get', '/user/'+id+'/account')
             .then(res => {
                 if(res?.status !== 'ok'){
                     if(res.status === "login"){
@@ -13,7 +13,7 @@ export default class AccountService{
                     }
                     resolve([]);
                 }
-                console.log(res?.data);
+                //console.log(res?.data);
                 resolve(res?.data as AccountModel[]);
             });
         })
@@ -46,9 +46,32 @@ export default class AccountService{
                     }
                     resolve(null);
                 }
-                console.log("CURRENCY: ", res?.data.currency)
+                //console.log("CURRENCY: ", res?.data.currency)
                 resolve(res?.data.currency);
             });
         })
+    }
+
+    public static addAccount(data: any): Promise<any> {
+        return new Promise<any>(resolve => {
+            api('post', "/account", data)
+            .then(res => {
+                if(res?.status !== 'ok'){
+                    //console.log("NESTO NE RADI")
+                    if(res.status === "login"){
+                        EventRegister.emit("AUTH_EVENT", "force_login")
+                        resolve([]);
+                    }
+                    resolve({
+                        success: false,
+                        message: JSON.stringify(res?.data?.data as string),
+                    })  
+                }
+                resolve({
+                    success: true,
+                  });
+                
+            });
+        });
     }
 }

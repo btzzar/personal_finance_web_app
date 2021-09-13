@@ -128,6 +128,15 @@ export function getIdentity(): string{
     return localStorage.getItem("user-identity") ?? '';  
 }
 
+export function saveId(id: string){
+    console.log("Saving user id....", id, typeof id);
+    sessionStorage.setItem("user_id", id)
+}
+
+export function getId(): string{
+    return sessionStorage.getItem("user_id") ?? '';  
+}
+
 function refreshToken(): Promise<string|null> {
     return new Promise<string|null>(resolve => {
         axios({

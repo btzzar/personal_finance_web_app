@@ -86,6 +86,7 @@ export default class UserLogin extends BaseComponent<{}>{
     }
     
     handleLogInButtonClick(): void {
+        
         AuthService.attemptUserLogin(this.state.email, this.state.password);
     }
 
