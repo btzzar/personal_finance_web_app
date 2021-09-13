@@ -45,9 +45,9 @@ export default class UserLogin extends BaseComponent<{}>{
         }
 
         return (
-            <Row>
+            <Row >
                 <Col sm={12} md={{span:6, offset:3}} lg={4}>
-                    <Card className="p-3">
+                    <Card className="p-3 bg-light">
                         <Card.Title><b>Prijavljivanje Korisnika</b></Card.Title>
                         <Card.Text as="div">
                             <Form >

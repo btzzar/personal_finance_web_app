@@ -47,7 +47,7 @@ export default class UserRegister extends BaseComponent<{}>{
         return (
             <Row>
                 <Col sm={12} md={{span:10, offset:1}} lg={{span:8, offset:2}}>
-                    <Card className="p-3">
+                    <Card className="p-3 bg-light">
                         <Card.Title><b>Registracija korisnika</b></Card.Title>
                         <Card.Text as="div">
                             <Form >
