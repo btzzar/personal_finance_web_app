@@ -280,7 +280,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                                     <FormGroup className= "mt-3">
                                     <Form.Check
                                         inline
-                                        label="Dohodak"
+                                        label="Prihod"
                                         name="group1"
                                         type= 'radio'
                                         id='inline-radio-1'
@@ -289,7 +289,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                                     />
                                     <Form.Check
                                         inline
-                                        label="Trošak"
+                                        label="Rashod"
                                         name="group1"
                                         type= 'radio'
                                         id='inline-radio-2'
