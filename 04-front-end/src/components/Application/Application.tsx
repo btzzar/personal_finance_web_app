@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import api from '../../api/api';
 import EventRegister from '../../api/EventRegister';
 import AccountPage from '../AccountPage/AccountPage';
-import HomePage from '../HomePage/HomePage';
 import TopMenu from '../TopMenu/TopMenu';
 import TransactionPage from '../TransactionPage/TransactionPage';
 import UserLogin from '../UserLogin/UserLogin';
@@ -69,15 +68,12 @@ private checkOk(){
 
       <BrowserRouter>    
         <Container className = "Application">
-        <div className="Application-header">Front-end aplikacije</div>
+        
         <TopMenu currMenuType= {this.state.authorizationRole} />
           <div className="Application-body">
             <Switch>
-              <Route exact path="/" component = {HomePage} />
-
-              <Route exact path="/account/:id?" component = {AccountPage} />
-
-              <Route path="/profile">My Profile</Route>
+             <Route exact path="/account/:id?" component = {AccountPage} />
+         
 
               <Route path="/auth/user/register" component={UserRegister} />
               <Route path="/auth/user/login" component={UserLogin} />
@@ -88,7 +84,7 @@ private checkOk(){
 
             </Switch>
           </div>
-          <div>&copy; 2021...</div>
+          <div className="mt-5">&copy; 2021...</div>
         
         </Container>
       </BrowserRouter>

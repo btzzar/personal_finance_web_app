@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
 import { Redirect } from "react-router";
 import EventRegister from "../../api/EventRegister";
 import AuthService from "../../services/AuthService";
@@ -49,30 +49,30 @@ export default class UserRegister extends BaseComponent<{}>{
             <Row>
                 <Col sm={12} md={{span:10, offset:1}} lg={{span:8, offset:2}}>
                     <Card className="p-3">
-                        <Card.Title><b>User Register</b></Card.Title>
+                        <Card.Title><b>Registracija korisnika</b></Card.Title>
                         <Card.Text as="div">
                             <Form >
                                 <Row>
                                 <Col xs={12} md={6}>
-                                    <FormGroup>
+                                    <FormGroup className="mt-2">
                                         <Form.Label>E-mail:</Form.Label>
                                         <Form.Control   type="email" 
-                                                        placeholder="Enter your email here..."  
+                                                        placeholder="Upišite svoju e-mail adresu..."  
                                                         value={this.state.email} 
                                                         onChange = {this.onChangeInput("email")} />
                                     </FormGroup>
-                                    <FormGroup>
-                                        <Form.Label>Password:</Form.Label>
+                                    <FormGroup className="mt-2">
+                                        <Form.Label>Lozinka:</Form.Label>
                                         <Form.Control   type="password" 
-                                                        placeholder="Enter your password here..." 
+                                                        placeholder="Upišite svoju lozinku..." 
                                                         value={this.state.password} 
                                                         onChange = {this.onChangeInput("password")}
                                                         />
                                     </FormGroup>
-                                    <FormGroup>
-                                        <Form.Label>Userename:</Form.Label>
+                                    <FormGroup className="mt-3">
+                                        <Form.Label>Korisničko ime:</Form.Label>
                                         <Form.Control   type="text" 
-                                                        placeholder="Enter your username here..." 
+                                                        placeholder="Upišite svoje korisničko ime..." 
                                                         value={this.state.username} 
                                                         onChange = {this.onChangeInput("username")}
                                                         />
@@ -81,25 +81,25 @@ export default class UserRegister extends BaseComponent<{}>{
                                 </Col>
                                 <Col xs={12} md={6}>
                                     
-                                    <FormGroup>
-                                        <Form.Label>Forename:</Form.Label>
+                                    <FormGroup className="mt-2">
+                                        <Form.Label>Ime:</Form.Label>
                                         <Form.Control   type="text" 
-                                                        placeholder="Enter your first name here..." 
+                                                        placeholder="Upišite svoje ime..." 
                                                         value={this.state.firstName} 
                                                         onChange = {this.onChangeInput("firstName")}
                                                         />
                                     </FormGroup>
-                                    <FormGroup>
-                                        <Form.Label>Surname:</Form.Label>
+                                    <FormGroup className="mt-2 mb-4">
+                                        <Form.Label>Prezime:</Form.Label>
                                         <Form.Control   type="text" 
-                                                        placeholder="Enter your last name here..." 
+                                                        placeholder="Upišite svoje prezime..." 
                                                         value={this.state.lastName} 
                                                         onChange = {this.onChangeInput("lastName")}
                                                         />
                                     </FormGroup>
-                                    <FormGroup>
-                                    <Button variant="primary" className="m-4"
-                                    onClick={() => this.handleRegisterButtonClick()}> Register </Button>
+                                    <FormGroup className="m-5">
+                                    <Button variant="primary"
+                                    onClick={() => this.handleRegisterButtonClick()}> Potvrdi </Button>
                                     </FormGroup>
                                 </Col>
                                     
@@ -109,7 +109,9 @@ export default class UserRegister extends BaseComponent<{}>{
 
                                 {
                                 this.state.message
-                                ? (<p className="mt-3">{this.state.message}</p>)
+                                ?   <Alert key="1" variant="danger">
+                                         {this.state.message}   
+                                    </Alert>
                                 : ""
                                 }
 
@@ -123,7 +125,29 @@ export default class UserRegister extends BaseComponent<{}>{
        );
     }
     
+
+    checkPassword(): boolean {
+        const pass = this.state.password;
+
+        let strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
+
+        const res = strongPassword.test(pass);
+
+        if(!res){
+            this.setState({
+                message: `Lozinka mora da bude dugačka minimalno 8 karaktera.  
+                                                Mora sadržati: bar jedno veliko slovo,
+                                                bar jedno malo slovo, bar jednu cifru, 
+                                                i bar jedan specijalni karakter.`
+            })
+        }
+
+        return res;
+    }
+
     handleRegisterButtonClick(): void {
+        if(this.checkPassword()){
+
         AuthService.attemptUserRegister({
             email: this.state.email,
             password: this.state.password,
@@ -141,7 +165,7 @@ export default class UserRegister extends BaseComponent<{}>{
                 message: res.message
             })
         })
-        
+    }
     }
 
     

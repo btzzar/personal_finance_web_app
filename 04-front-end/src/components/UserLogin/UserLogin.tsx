@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
 import { Redirect } from "react-router";
 import EventRegister from "../../api/EventRegister";
 import AuthService from "../../services/AuthService";
@@ -48,19 +48,19 @@ export default class UserLogin extends BaseComponent<{}>{
             <Row>
                 <Col sm={12} md={{span:6, offset:3}} lg={4}>
                     <Card className="p-3">
-                        <Card.Title><b>User Login</b></Card.Title>
+                        <Card.Title><b>Prijavljivanje Korisnika</b></Card.Title>
                         <Card.Text as="div">
                             <Form >
                                 <FormGroup>
                                     <Form.Label>E-mail:</Form.Label>
                                     <Form.Control   type="email" 
-                                                    placeholder="Enter your email here..."  
+                                                    placeholder="Upišite svoju e-mail adresu ovde..."  
                                                     value={this.state.email} 
                                                     onChange = {this.onChangeInput("email")} />
                                 </FormGroup>
-                                    <Form.Label>Password:</Form.Label>
+                                    <Form.Label>Lozinka:</Form.Label>
                                     <Form.Control   type="password" 
-                                                    placeholder="Enter your password here..." 
+                                                    placeholder="Upišite svoju lozinku ovde..." 
                                                     value={this.state.password} 
                                                     onChange = {this.onChangeInput("password")}
                                                     />
@@ -71,7 +71,9 @@ export default class UserLogin extends BaseComponent<{}>{
 
                                 {
                                 this.state.message
-                                ? (<p className="mt-3">{this.state.message}</p>)
+                                ?  <Alert className="mt-3" key="1" variant="danger">
+                                        {this.state.message}    
+                                  </Alert>     
                                 : ""
                                 }
 

@@ -124,11 +124,11 @@ export default class AccountPage extends BasePage<AccountProperties> {
         return (
 
             <>
-<h1> {this.state.title} </h1>
+
 {
             this.state.toggleAdd ? 
             (
-            <Card className="p-3 mb-5">
+            <Card  className="bg-light p-3 mb-5">
                 <Card.Title><b>Dodavanje Računa</b></Card.Title>
                 <Card.Text as="div">
                     <Col xs={12} md={6}>
@@ -218,19 +218,20 @@ export default class AccountPage extends BasePage<AccountProperties> {
 
                 
                 <ListGroup>
-
-                                    <Container className="mb-4 border border-secondary">
+                                <ListGroup.Item variant="dark" key={-1}>
+                                    <Container  className="mb-1">
                                         <Row >
                                             <Col sm={true}md={true}lg={true}>Naziv računa</Col>
                                             <Col sm={true}md={true}lg={true}>Saldo</Col>
                                             <Col sm={true}md={true}lg={true}>Valuta</Col>
                                         </Row>
                                     </Container>
+                                </ListGroup.Item>
 
                     {
                         this.state.accounts.map(
                             acc => (
-                                <ListGroup.Item key={acc.accountId}>
+                                <ListGroup.Item variant="secondary" key={acc.accountId}>
                                     <Container>
                                         <Row>
                                             <Col sm={true}md={true}lg={true}> <Link to= {"/account/" + acc.accountId + "/transaction"}> {acc.name} </Link></Col>

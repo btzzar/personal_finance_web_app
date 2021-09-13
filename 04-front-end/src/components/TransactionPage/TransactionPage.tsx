@@ -7,6 +7,7 @@ import { Alert, Button, Card, Col, Dropdown, Form, FormGroup, Row } from "react-
 import AccountService from "../../services/AccountService";
 import AuthService from "../../services/AuthService";
 import Chart from "react-google-charts";
+import AccountModel from "../../../../03-back-end/src/components/account/model";
 
 
 
@@ -34,6 +35,7 @@ class TransactionState{
     toggleGraph: boolean = false;
     chartExpenses: any[] = [];
     chartIncomes: any[] = [];
+    account: AccountModel | null = null;
 }
 
 
@@ -59,6 +61,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
             toggleGraph: false,
             chartExpenses: [],
             chartIncomes: [],
+            account: null,
         }
     }
 
@@ -83,6 +86,16 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
     }
 
 
+    getAccountData(id:number | null) {
+        if(id !== null)
+        AccountService.getAccountById(id)
+            .then(res => {
+                this.setState({
+                    account: res,
+                })
+            })
+    }
+    
 
     getTransactionData(id: number | null) {
         if(id !== null)
@@ -99,8 +112,10 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
     }
 
     componentDidMount(){
-       this.getTransactionData(this.getAccountId());
+       let id = this.getAccountId()
+       this.getTransactionData(id);
        this.getCurrency();
+       this.getAccountData(id);
         EventRegister.on("AUTH_EVENT", this.authEventHandler.bind(this));
     }
 
@@ -216,10 +231,35 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
         }else {
         return(
             <>
-            {
+                <Card>
+                    <Card.Header>
+                            {this.state.account?.name}
+                    </Card.Header>
+                    <Card.Body>
+                        
+                        <Card.Title as="div">
+                            Total: { this.state.account?.total }&nbsp;{this.state.account?.currency}
+                        </Card.Title>
+                    </Card.Body>
+                </Card>
+                    
+                    <Button variant="primary" className="m-3"
+                    onClick={() => this.setState({toggleList: !this.state.toggleList})}> Prikaži listu transakcija</Button>
+                     <Button variant="primary" 
+                    onClick={ () => this.handleChartClick() }> Prikaži grafikone</Button>
+                    <Button variant="primary" className="m-3"
+                                    onClick={() => this.setState({toggleAdd: !this.state.toggleAdd})}> Dodaj Transakciju</Button>
+
+            
+            { 
+            /* Segment za dodavanje transakcija..
+                ***********************************
+                ***********************************
+                ***********************************            
+            */
             this.state.toggleAdd ? 
             (
-            <Card className="p-3 mb-5">
+            <Card className="bg-light p-3 mb-5 mt-3">
                 <Card.Title><b>Dodavanje transakcije</b></Card.Title>
                 <Card.Text as="div">
                     <Col xs={12} md={6}>
@@ -281,14 +321,13 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                     </Col>
                 </Card.Text>
                 </Card>)
-                : 
-                                    (<Button variant="primary" className="mt-3 mb-3"
-                                    onClick={() => this.setState({toggleAdd: true})}> Dodaj Transakciju</Button>)
-                                    
+                : <></>      
                 }
-                <Button variant="primary" className="m-3"
-                    onClick={() => this.setState({toggleList: !this.state.toggleList})}> Prikaži listu transakcija</Button>
-                {   
+                {   /* Segment za listanje transakcija..
+                    ***********************************
+                    ***********************************
+                    ***********************************
+                    */
                     this.state.toggleList ? 
                     (<BootstrapTable 
                         keyField={"expenseId"}
@@ -299,14 +338,13 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                     />)
                     : <></>
                 }
-                    
-
-                
-                <Button variant="primary" 
-                    onClick={ () => this.handleChartClick() }> Prikaži grafikone</Button>
-                {
+                {/* Segment za prikaz grafova..
+                    ***********************************
+                    ***********************************
+                    ***********************************
+                    */
                     this.state.toggleGraph ?
-                 (<Row> 
+                 (<Row > 
                      <Col><Chart
                     width={'500px'}
                     height={'300px'}
@@ -322,6 +360,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                     </Col>
                     <Col>
                     <Chart
+                    
                     width={'500px'}
                     height={'300px'}
                     chartType="PieChart"
@@ -391,9 +430,14 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                         addedVal: 0,
                         addedType: "",
                         toggleAdd: false,
-                        toggleList: false
+                        toggleList: false,
+                        toggleGraph:false
                     })
-                    this.getTransactionData(this.getAccountId());  
+                    let id = this.getAccountId();
+                    this.getTransactionData(id);  
+                    this.getAccountData(id);
+                    this.prepareExpensesForChart();
+                    this.prepareIncomesForChart();
                 }else{
                     //console.log("NEMERE")
                     //console.log(res.message)
