@@ -13,7 +13,7 @@ export default class IncomeRouter implements IRouter{
 
         application.get("/income/:id",   AuthMiddleware.verifyAuthToken,       incomeController.getById.bind(incomeController));
         application.get("/account/:aid/income",AuthMiddleware.verifyAuthToken, incomeController.getAllFromAccount.bind(incomeController));
-        application.post("/income",          AuthMiddleware.verifyAuthToken,   incomeController.add.bind(incomeController));
+        application.post("/income",          incomeController.add.bind(incomeController));
         application.delete("/income/:id",     AuthMiddleware.verifyAuthToken,  incomeController.deleteById.bind(incomeController));
     }
 }

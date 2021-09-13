@@ -41,4 +41,28 @@ export default class TransactionService{
             resolve(finalData);
         })
     }  
+
+    public static addTransaction(transaction: "expense" | "income", data: any): Promise<any> {
+        return new Promise<any>(resolve => {
+            api('post', "/"+transaction, data)
+            .then(res => {
+                if(res?.status !== 'ok'){
+                    console.log("NESTO NE RADI")
+                    if(res.status === "login"){
+                        EventRegister.emit("AUTH_EVENT", "force_login")
+                    }
+                    resolve([]);
+
+                    resolve({
+                        success: false,
+                        message: JSON.stringify(res?.data?.data as string),
+                    })  
+                }
+                resolve({
+                    success: true,
+                  });
+                
+            });
+        });
+   }
 }

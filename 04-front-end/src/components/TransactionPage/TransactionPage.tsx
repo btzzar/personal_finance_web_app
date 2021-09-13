@@ -3,7 +3,8 @@ import TransactionService from "../../services/TransactionService";
 import BasePage, { BasePageProperties } from "../BaseComponent/BaseComponent";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import { Button, Card, Col, Dropdown, Form, FormGroup, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Dropdown, Form, FormGroup, Row } from "react-bootstrap";
+import AccountService from "../../services/AccountService";
 
 
 
@@ -25,6 +26,8 @@ class TransactionState{
     addedType: "expense" | "income" | "" = "";
     toggleAdd: boolean = false;
     toggleList: boolean = false;
+    currency: "eur" | "usd" | "rsd" | "gbp" | "" = "";
+    message: string = "";
 }
 
 
@@ -45,6 +48,8 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
             addedType: "",
             toggleAdd: false,
             toggleList: false,
+            currency: "",
+            message: ""
         }
     }
 
@@ -53,6 +58,23 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
 
         return id ? +(id) : null;
     }
+
+    private getCurrency() {
+        const id = this.getAccountId();
+        var x = "me"
+        if(id !== null)
+        AccountService.getCurrencyById(id)
+        .then(result => {
+            if(result !== null){
+                this.setState({
+                    currency: result
+                })
+            }
+        })
+    }
+
+
+
     getTransactionData(id: number | null) {
         if(id !== null)
         TransactionService.getAllTransactionsByAccountId(id)
@@ -62,12 +84,13 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                 transactions: transactions,
                 loading: false,
             })
-            console.log("TR PAGE Transakcije: ", this.state.transactions)
+            //console.log("TR PAGE Transakcije: ", this.state.transactions)
         })
     }
 
     componentDidMount(){
        this.getTransactionData(this.getAccountId());
+       this.getCurrency();
        
         EventRegister.on("AUTH_EVENT", this.authEventHandler.bind(this));
     }
@@ -76,6 +99,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
         if(prevProps.match?.params.id !== this.props.match?.params.id){
             if(this.getAccountId() != null){
                 this.getTransactionData(this.getAccountId());
+                this.getCurrency();
             }
         }
     }
@@ -89,7 +113,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
     }   
     
     
-    private onChangeInput(field: "addedCat" | "addedVal"): 
+    private onChangeInput(field: "addedCat" | "addedVal" | "addedType"): 
     (event: React.ChangeEvent<HTMLInputElement>) => void {
     return (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
@@ -98,6 +122,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
         }
     }    
 
+    
 
 
     renderMain(): JSX.Element {
@@ -147,6 +172,8 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                                         name="group1"
                                         type= 'radio'
                                         id='inline-radio-1'
+                                        value="income"
+                                        onChange = {this.onChangeInput("addedType")}
                                     />
                                     <Form.Check
                                         inline
@@ -154,13 +181,28 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                                         name="group1"
                                         type= 'radio'
                                         id='inline-radio-2'
+                                        value ="expense"
+                                        onChange = {this.onChangeInput("addedType")}
                                     />
                                      </FormGroup>
+                                    {
+                                        this.state.message ? 
+                                    (<FormGroup className="mt-3">
+                                        <Alert key="1" variant="danger">
+                                            {this.state.message}    
+                                        </Alert>
+                                        
+                                        
+                                    </FormGroup>) : <></>
+                                    }
 
-                                    <FormGroup>
-                                    <Button variant="primary" className="mt-3"
+                                    <FormGroup className="mt-3">
+                                    <Button variant="success" 
                                     onClick={() => this.handleAddButtonClick()}> Dodaj </Button>
+                                    <Button variant="danger" className="m-3"
+                                    onClick={() => this.setState({ toggleAdd: false, message: ""})}> Odustani </Button>
                                     </FormGroup>
+
                                     
                     </Col>
                 </Card.Text>
@@ -187,16 +229,60 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
             </>
             
         )
+        }
     }
+
+    checkInputs(): boolean{
+        if(this.state.addedCat == ""){
+            this.setState({
+                message: "Postaviti validnu kategoriju"
+            })
+            return false;
+        }
+        if(this.state.addedVal <= 0){
+            this.setState({
+                message: "Postaviti validan iznos"
+            })
+            return false;
+        }
+        
+        if(this.state.addedType == ""){
+            this.setState({
+                message: "Postaviti validan tip transakcije"
+            })
+            return false;
+        }
+
+        return true;
     }
     handleAddButtonClick(): void {
+        const data = {
+            "accountId": this.getAccountId(),
+            "category": this.state.addedCat,
+            "value": +(this.state.addedVal),
+            "currency": this.state.currency
+        }
 
         
+        
+        if(this.checkInputs() && this.state.addedType){
+            TransactionService.addTransaction(this.state.addedType, data)
+            .then(res=> {
+                if(res.success){
+                    //console.log("USpEHHHHH", res)
+                    this.setState({ 
+                        addedCat: "",
+                        addedVal: 0,
+                        addedType: "",
+                        toggleAdd: false})
+                }else{
+                    //console.log("NEMERE")
+                    console.log(res.message)
+                }
+            })                
+        }
 
 
-
-
-
-       this.setState({ toggleAdd: false})
+       
     }
 }

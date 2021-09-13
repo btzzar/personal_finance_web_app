@@ -35,4 +35,20 @@ export default class AccountService{
             });
         })
     }
+
+    public static getCurrencyById(accountId: number): Promise<string|null>{
+        return new Promise<string|null>(resolve => {
+            api('get', '/account/' + accountId)
+            .then(res => {
+                if(res?.status !== 'ok'){
+                    if(res.status === "login"){
+                        EventRegister.emit("AUTH_EVENT", "force_login")
+                    }
+                    resolve(null);
+                }
+                console.log("CURRENCY: ", res?.data.currency)
+                resolve(res?.data.currency);
+            });
+        })
+    }
 }
