@@ -1,7 +1,6 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap"
 import { Link } from "react-router-dom";
-import EventRegister from "../../api/EventRegister";
 
 class TopMenuProperties {
     currMenuType: "user" | "administrator" | "visitor" = "visitor";

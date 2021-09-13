@@ -1,7 +1,6 @@
 import React from "react";
 import { Alert, Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
 import { Redirect } from "react-router";
-import EventRegister from "../../api/EventRegister";
 import AuthService from "../../services/AuthService";
 import BaseComponent from "../BaseComponent/BaseComponent";
 

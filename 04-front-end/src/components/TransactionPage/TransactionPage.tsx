@@ -3,9 +3,8 @@ import TransactionService from "../../services/TransactionService";
 import BasePage, { BasePageProperties } from "../BaseComponent/BaseComponent";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import { Alert, Button, Card, Col, Dropdown, Form, FormGroup, Row } from "react-bootstrap";
+import { Alert, Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
 import AccountService from "../../services/AccountService";
-import AuthService from "../../services/AuthService";
 import Chart from "react-google-charts";
 import AccountModel from "../../../../03-back-end/src/components/account/model";
 
@@ -73,7 +72,6 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
 
     private getCurrency() {
         const id = this.getAccountId();
-        var x = "me"
         if(id !== null)
         AccountService.getCurrencyById(id)
         .then(result => {
@@ -167,14 +165,14 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
         uniqueKeys.map((u) => {
             let sum = 0;
             transactionData.map((t)=>{
-                if(u == t.category){
+                if(u === t.category){
                     sum +=  t.value;
                 }
             })
             data.push([u, sum]);
         })
 
-        console.log("Pripremljena data: ", data);
+        //console.log("Pripremljena data: ", data);
         this.setState({
             chartExpenses: data
         })
@@ -183,29 +181,29 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
     private prepareIncomesForChart(){
         var data: any[][] = [["Prihod", "Vrednost"]];
         var transactionData = this.state.transactions;
-        console.log("TransactionData: ", transactionData);
+        //console.log("TransactionData: ", transactionData);
 
         var keys = [];
         keys = transactionData.map((e)=>{
             if(e.incomeId !== undefined) return e.category
         })
-        console.log(keys);
+        //console.log(keys);
 
         var uniqueKeys = keys.filter(this.onlyUnique);
 
-        console.log(uniqueKeys);
+        //console.log(uniqueKeys);
         
         uniqueKeys.map((u) => {
             let sum = 0;
             transactionData.map((t)=>{
-                if(u == t.category){
+                if(u === t.category){
                     sum +=  t.value;
                 }
             })
             data.push([u, sum]);
         })
 
-        console.log("Pripremljena income data: ", data);
+        //console.log("Pripremljena income data: ", data);
         this.setState({
             chartIncomes: data
         })
@@ -388,7 +386,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
     }
 
     checkInputs(): boolean{
-        if(this.state.addedCat == ""){
+        if(this.state.addedCat === ""){
             this.setState({
                 message: "Postaviti validnu kategoriju"
             })
@@ -401,7 +399,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
             return false;
         }
         
-        if(this.state.addedType == ""){
+        if(this.state.addedType === ""){
             this.setState({
                 message: "Postaviti validan tip transakcije"
             })

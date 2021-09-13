@@ -4,8 +4,6 @@ import BasePage, { BasePageProperties } from "../BaseComponent/BaseComponent";
 import AccountModel from "../../../../03-back-end/src/components/account/model";
 import AccountService from "../../services/AccountService";
 import EventRegister from "../../api/EventRegister";
-import TransactionService from "../../services/TransactionService";
-import AuthService from "../../services/AuthService";
 import { getId } from "../../api/api";
 import { Alert, Button, Card, Col, Container, Form, FormGroup, ListGroup, Row } from "react-bootstrap";
 
@@ -77,7 +75,7 @@ export default class AccountPage extends BasePage<AccountProperties> {
   
     componentDidMount(){
         const id = +(getId());
-        console.log("GOT USER ID", id, typeof id);
+        //console.log("GOT USER ID", id, typeof id);
 
         this.setState({
             userId: id
@@ -252,14 +250,14 @@ export default class AccountPage extends BasePage<AccountProperties> {
     }
 
     checkInputs(): boolean{
-        if(this.state.accName == ""){
+        if(this.state.accName === ""){
             this.setState({
                 message: "Postaviti validan naziv računa"
             })
             return false;
         }
         
-        if(this.state.accCurr == ""){
+        if(this.state.accCurr === ""){
             this.setState({
                 message: "Postaviti validnu valutu"
             })
@@ -294,7 +292,7 @@ export default class AccountPage extends BasePage<AccountProperties> {
                         this.getAccountData(id);                        
                 }else{
                     //console.log("NEMERE")
-                    console.log(res.message)
+                    //console.log(res.message)
                 }
             })                
         }
