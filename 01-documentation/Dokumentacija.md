@@ -88,8 +88,8 @@ Tabela **income** predstavlja spisak svih **prihoda** računa. Sadrži polja:
 
 ​	Svaki posetilac sajt može obaviti dve aktivnosti:
 
-		-	Registracija naloga, nakon čega će biti prosleđen na stranicu za prijavu korisnika 
-		-	Prijava, nakon čega postaje **prijavljen korisnik** i prosleđuje se na stranicu za pregled računa.
+-	Registracija naloga, nakon čega će biti prosleđen na stranicu za prijavu korisnika 
+-	Prijava, nakon čega postaje **prijavljen korisnik** i prosleđuje se na stranicu za pregled računa.
 
 
 
@@ -97,15 +97,13 @@ Tabela **income** predstavlja spisak svih **prihoda** računa. Sadrži polja:
 
 ​	Svaki prijavljeni korisnik može obavljati sledeće aktivnosti:
 
-	-	Pregled spiska svih računa
-	-	Dodavanje novog računa
-	-	Pregled spiska svih transakcija za odabrani račun
-	-	Pregled grafikona za odabrani račun - Dva grafikona koja prikazuju udeo kategorija u ukupnim prihodima / rashodima
-	-	Dodavanje prihoda 
-	-	Dodavanje rashoda
-	-	Odjavljivanje, kada korisnik postaje **posetilac**, i prosleđuje se na stranicu za prijavu korisnika
-
-
+-	Pregled spiska svih računa
+-	Dodavanje novog računa
+-	Pregled spiska svih transakcija za odabrani račun
+-	Pregled grafikona za odabrani račun - Dva grafikona koja prikazuju udeo kategorija u ukupnim prihodima / 		rashodima
+-	Dodavanje prihoda 
+-	Dodavanje rashoda
+-	Odjavljivanje, kada korisnik postaje **posetilac**, i prosleđuje se na stranicu za prijavu korisnika
 
 
 
