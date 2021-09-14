@@ -13,7 +13,7 @@ export default class ExpenseRouter implements IRouter{
 
         application.get("/expense/:id",          AuthMiddleware.verifyAuthToken, expenseController.getById.bind(expenseController));
         application.get("/account/:aid/expense", AuthMiddleware.verifyAuthToken, expenseController.getAllFromAccount.bind(expenseController));
-        application.post("/expense",              expenseController.add.bind(expenseController));
+        application.post("/expense",             AuthMiddleware.verifyAuthToken,  expenseController.add.bind(expenseController));
         application.delete("/expense/:id",       AuthMiddleware.verifyAuthToken, expenseController.deleteById.bind(expenseController));
     }
 }
