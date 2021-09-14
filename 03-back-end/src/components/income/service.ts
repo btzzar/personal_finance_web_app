@@ -15,7 +15,7 @@ class IncomeService extends BaseService<IncomeModel>{
         item.currency    = data?.currency;
         item.createdAt   = data?.created_at;
 
-        //console.log(item);
+        ////console.log(item);
         return item;
     }
 
@@ -31,7 +31,7 @@ class IncomeService extends BaseService<IncomeModel>{
         return new Promise<IncomeModel|IErrorResponse>(resolve => {
             const sql = "INSERT income SET account_id = ?, category = ?, value = ?, currency = ?";
 
-            console.log(sql);
+            //console.log(sql);
 
             this.db.execute(sql, [data.accountId, data.category, data.value, data.currency])
             .then(async result => {

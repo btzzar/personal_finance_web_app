@@ -37,7 +37,7 @@ export default class TransactionService{
                 //finalData.push(res?.data as IncomeModel[])
             });
 
-            //console.log(finalData);
+            ////console.log(finalData);
             resolve(finalData);
         })
     }  
@@ -47,7 +47,7 @@ export default class TransactionService{
             api('post', "/"+transaction, data)
             .then(res => {
                 if(res?.status !== 'ok'){
-                    //console.log("NESTO NE RADI")
+                    ////console.log("NESTO NE RADI")
                     if(res.status === "login"){
                         EventRegister.emit("AUTH_EVENT", "force_login")
                     }

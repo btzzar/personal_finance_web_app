@@ -105,7 +105,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                 loading: false,
             })
             
-            //console.log("TR PAGE Transakcije: ", this.state.transactions)
+            ////console.log("TR PAGE Transakcije: ", this.state.transactions)
         })
     }
 
@@ -172,7 +172,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
             data.push([u, sum]);
         })
 
-        //console.log("Pripremljena data: ", data);
+        ////console.log("Pripremljena data: ", data);
         this.setState({
             chartExpenses: data
         })
@@ -181,17 +181,17 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
     private prepareIncomesForChart(){
         var data: any[][] = [["Prihod", "Vrednost"]];
         var transactionData = this.state.transactions;
-        //console.log("TransactionData: ", transactionData);
+        ////console.log("TransactionData: ", transactionData);
 
         var keys = [];
         keys = transactionData.map((e)=>{
             if(e.incomeId !== undefined) return e.category
         })
-        //console.log(keys);
+        ////console.log(keys);
 
         var uniqueKeys = keys.filter(this.onlyUnique);
 
-        //console.log(uniqueKeys);
+        ////console.log(uniqueKeys);
         
         uniqueKeys.map((u) => {
             let sum = 0;
@@ -203,7 +203,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
             data.push([u, sum]);
         })
 
-        //console.log("Pripremljena income data: ", data);
+        ////console.log("Pripremljena income data: ", data);
         this.setState({
             chartIncomes: data
         })
@@ -422,7 +422,7 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
             TransactionService.addTransaction(this.state.addedType, data)
             .then(res=> {
                 if(res.success){
-                    //console.log("USpEHHHHH", res)
+                    ////console.log("USpEHHHHH", res)
                     this.setState({ 
                         addedCat: "",
                         addedVal: 0,
@@ -437,8 +437,8 @@ export default class TransactionPage extends BasePage<TransactionProperties>{
                     this.prepareExpensesForChart();
                     this.prepareIncomesForChart();
                 }else{
-                    //console.log("NEMERE")
-                    //console.log(res.message)
+                    ////console.log("NEMERE")
+                    ////console.log(res.message)
                 }
             })                
         }

@@ -15,7 +15,7 @@ class ExpenseService extends BaseService<ExpenseModel>{
         item.currency    = data?.currency;
         item.createdAt   = data?.created_at;
 
-        //console.log(item);
+        ////console.log(item);
         return item;
     }
 
@@ -31,7 +31,7 @@ class ExpenseService extends BaseService<ExpenseModel>{
         return new Promise<ExpenseModel|IErrorResponse>(resolve => {
             const sql = "INSERT expense SET account_id = ?, category = ?, value = ?, currency = ?";
 
-            console.log(sql);
+            //console.log(sql);
 
             this.db.execute(sql, [data.accountId, data.category, data.value, data.currency])
             .then(async result => {

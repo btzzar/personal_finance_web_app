@@ -59,16 +59,16 @@ export default abstract class BaseService<T extends IModel> {
             
             const sql: string = `SELECT * FROM ${tableName} WHERE ${tableName}_id = ?;`;
     
-            //console.log("sql id ", id)
-            //console.log(sql);
+            ////console.log("sql id ", id)
+            ////console.log(sql);
 
             this.db.execute(sql,[id])
             .then(async result => {
     
-                //console.log("RESULT: ", result);
+                ////console.log("RESULT: ", result);
                 const rows = result[0];
     
-                //console.log("ROWS: ", await this.adaptModel(rows[0]));
+                ////console.log("ROWS: ", await this.adaptModel(rows[0]));
 
                 resolve(                    
                     await this.adaptModel(rows[0])
@@ -116,7 +116,7 @@ export default abstract class BaseService<T extends IModel> {
         return new Promise<IErrorResponse> (resolve => {
             const sql = `DELETE FROM ${tableName} where ${tableName}_id = ?;`;
 
-            //console.log(sql);
+            ////console.log(sql);
 
             this.db.execute(sql, [id])
             .then(async result => {

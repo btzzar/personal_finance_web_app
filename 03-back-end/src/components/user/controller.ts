@@ -62,7 +62,7 @@ class UserController extends BaseController{
             return res.status(400).send(result);
         }
 
-        //console.log("kontroler" + result);
+        ////console.log("kontroler" + result);
 
         res.send(result);
     }
@@ -85,7 +85,7 @@ class UserController extends BaseController{
             return;
         }
 
-        //console.log("Controller edit: ", userId, data);
+        ////console.log("Controller edit: ", userId, data);
 
         const result = await this.services.userService.edit(userId, data as IEditUser);
 

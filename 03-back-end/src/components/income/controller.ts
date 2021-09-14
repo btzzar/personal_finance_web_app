@@ -15,7 +15,7 @@ class IncomeController extends BaseController{
             return;
         }
 
-        console.log(incomeId);
+        //console.log(incomeId);
 
         const result = await this.services.incomeService.getById(incomeId);
 

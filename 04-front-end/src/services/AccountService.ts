@@ -13,7 +13,7 @@ export default class AccountService{
                     }
                     resolve([]);
                 }
-                //console.log(res?.data);
+                ////console.log(res?.data);
                 resolve(res?.data as AccountModel[]);
             });
         })
@@ -46,7 +46,7 @@ export default class AccountService{
                     }
                     resolve(null);
                 }
-                //console.log("CURRENCY: ", res?.data.currency)
+                ////console.log("CURRENCY: ", res?.data.currency)
                 resolve(res?.data.currency);
             });
         })
@@ -57,7 +57,7 @@ export default class AccountService{
             api('post', "/account", data)
             .then(res => {
                 if(res?.status !== 'ok'){
-                    //console.log("NESTO NE RADI")
+                    ////console.log("NESTO NE RADI")
                     if(res.status === "login"){
                         EventRegister.emit("AUTH_EVENT", "force_login")
                         resolve([]);

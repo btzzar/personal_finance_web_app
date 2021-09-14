@@ -19,7 +19,7 @@ export default function api(
     attemptToRefresh: boolean = true,
 ): Promise<ApiResponse> {
     return new Promise<ApiResponse> (resolve => {
-        console.log("Executing request", path);
+        //console.log("Executing request", path);
         axios({
             method: method,
             baseURL: AppConfiguration.API_URL,
@@ -34,7 +34,7 @@ export default function api(
         .catch(async err =>{
             const emsg: string = "" + err;
             if(attemptToRefresh && emsg.includes("401")){
-                console.log("refresh is happening");
+                //console.log("refresh is happening");
 
                 const newToken: string| null = await refreshToken();
 
@@ -47,7 +47,7 @@ export default function api(
                 }
 
                 saveAuthToken(newToken);
-                //console.log("new token saved")
+                ////console.log("new token saved")
                 //EventRegister.emit("AUTH_EVENT", "force_login");
 
 
@@ -96,7 +96,7 @@ function responseHandler(res: AxiosResponse<any>, resolve:(data: ApiResponse) =>
             data: '' + res,
         });
     }
-    console.log("Received response")
+    //console.log("Received response")
     resolve({
         status: 'ok',
         data: res.data,
@@ -129,7 +129,7 @@ export function getIdentity(): string{
 }
 
 export function saveId(id: string){
-    console.log("Saving user id....", id, typeof id);
+    //console.log("Saving user id....", id, typeof id);
     sessionStorage.setItem("user_id", id)
 }
 

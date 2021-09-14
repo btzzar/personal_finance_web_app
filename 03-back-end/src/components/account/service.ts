@@ -19,7 +19,7 @@ class AccountService extends BaseService<AccountModel> {
         item.description = data?.description;
         item.total       = +(data?.total);
 
-        //console.log(item);
+        ////console.log(item);
 
         return item;
     }
@@ -55,7 +55,7 @@ class AccountService extends BaseService<AccountModel> {
     public async edit(accountId: number, data: IEditAccount): Promise<AccountModel|IErrorResponse|null>{
         return new Promise<AccountModel|IErrorResponse|null> (resolve => {
             const sql = "UPDATE account SET name = ?, description = ? WHERE account_id = ?";
-            console.log("EDIT", sql)
+            //console.log("EDIT", sql)
             this.db.execute(sql, [data.name, data.description, accountId])
             .then(async result => {
                 resolve(await this.getById(accountId));

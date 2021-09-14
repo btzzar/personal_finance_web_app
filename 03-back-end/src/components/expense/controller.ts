@@ -15,7 +15,7 @@ class ExpenseController extends BaseController{
             return;
         }
 
-        console.log(expenseId);
+        //console.log(expenseId);
 
         const result = await this.services.expenseService.getById(expenseId);
 

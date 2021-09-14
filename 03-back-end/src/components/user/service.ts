@@ -63,7 +63,7 @@ class UserService extends BaseService<UserModel>{
                 
                 const newUser = await this.getById(newUserId);
 
-                console.log(newUser);
+                //console.log(newUser);
                 
                 resolve(newUser);
             })
@@ -80,7 +80,7 @@ class UserService extends BaseService<UserModel>{
 
     public async edit(userId: number, data: IEditUser): Promise<UserModel|IErrorResponse|null>{
         
-        //console.log("edit data: ", userId, data);
+        ////console.log("edit data: ", userId, data);
 
         const result = await this.getById(userId);
 

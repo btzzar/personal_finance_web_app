@@ -75,7 +75,7 @@ export default class AccountPage extends BasePage<AccountProperties> {
   
     componentDidMount(){
         const id = +(getId());
-        //console.log("GOT USER ID", id, typeof id);
+        ////console.log("GOT USER ID", id, typeof id);
 
         this.setState({
             userId: id
@@ -281,7 +281,7 @@ export default class AccountPage extends BasePage<AccountProperties> {
             AccountService.addAccount(data)
             .then(res=> {
                 if(res.success){
-                    //console.log("USpEHHHHH", res)
+                    ////console.log("USpEHHHHH", res)
                     this.setState({ 
                         accName: "",
                         accDesc: "",
@@ -291,8 +291,8 @@ export default class AccountPage extends BasePage<AccountProperties> {
                         const id = +(getId());
                         this.getAccountData(id);                        
                 }else{
-                    //console.log("NEMERE")
-                    //console.log(res.message)
+                    ////console.log("NEMERE")
+                    ////console.log(res.message)
                 }
             })                
         }

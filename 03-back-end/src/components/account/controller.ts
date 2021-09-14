@@ -72,7 +72,7 @@ class AccountController extends BaseController{
 
         const result = await this.services.accountService.getById(accountId);
 
-        console.log("RESULT: ", result)
+        //console.log("RESULT: ", result)
         
         if(result === null){
             res.sendStatus(404);

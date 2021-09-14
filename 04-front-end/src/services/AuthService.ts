@@ -44,7 +44,7 @@ export default class AuthService {
                     success: true,
                 })
 
-                //console.log(res)
+                ////console.log(res)
             })
             )
         )
@@ -63,7 +63,7 @@ export default class AuthService {
                 const id = res?.data.id;
                 saveAuthToken(authToken);
                 saveRefreshToken(refreshToken);
-                //console.log("USER ID TO BE SAVED", id);
+                ////console.log("USER ID TO BE SAVED", id);
                 saveId(id);
                 
 
@@ -81,7 +81,7 @@ export default class AuthService {
     //     api("get", "user")
     //     .then(res => {
     //         if(res.status === "ok"){
-    //             console.log(res.data);
+    //             //console.log(res.data);
     //             if(Array.isArray(res.data)){
     //                 return res.data;
     //             }
