@@ -237,3 +237,15 @@ Za potrebe testiranja potrebno je:
    1. **Samo jednom** - u korenom folderu, pod karticom *Authorization*, odabrati tip ***Bearer Token*** i nalepiti u ponuđeno polje.
    2. **Za svaki folder** - u folderu u kom se dešava željeni zahtev pod karticom *Authorization*, odabrati tip ***Bearer Token*** i nalepiti u ponuđeno polje. 
    3. **Za svaki zahtev** - u samom zahtevu pod karticom *Authorization*, odabrati tip ***Bearer Token*** i nalepiti u ponuđeno polje.
+
+
+
+
+
+### 06. Testiranje Rada Aplikacije
+
+----
+
+- Registrovati novog korisnika, prijaviti se i dodati račune i transakcije, ili
+- Pristupiti sa kredencijalima:  ``` email: luka@gmail.com password: Test1234! ```  ili ```email: marko@marko.com password: Test1234!```. Na ovim nalozima postoje računi i transakcije koji obuhvataju sve funkcionalnosti aplikacije.
+
