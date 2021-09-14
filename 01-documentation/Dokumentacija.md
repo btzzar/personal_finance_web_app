@@ -196,3 +196,13 @@ Tabela **income** predstavlja spisak svih **prihoda** računa. Sadrži polja:
   
 
 ![](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/design%20mockup/add-transaction.png?raw=true)
+
+
+
+
+
+
+### 05. Testiranje back-end dela aplikacije kroz Postman
+---
+
+Fajl u JSON formatu se nalazi na lokaciji [02-resources/Testiranje%20back-end%20dela%20(API)](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/Testiranje%20back-end%20dela%20(API).postman_collection.json).
