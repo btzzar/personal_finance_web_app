@@ -211,7 +211,7 @@ Za potrebe testiranja potrebno je:
 
 1. Izvršiti logovanje sa validnim podacima - primer Auth/POST a new login request with valid data
 2. Kopirati vrednost ključa "authToken" iz odgovora
-3. Nalepiti ključ na neku od sledećih lokacija
+3. Nalepiti kopiranu vrednost na neku od sledećih lokacija
    1. **Samo jednom** - u korenom folderu, pod karticom *Authorization*, odabrati tip ***Bearer Token*** i nalepiti u ponuđeno polje.
    2. **Za svaki folder** - u folderu u kom se dešava željeni zahtev pod karticom *Authorization*, odabrati tip ***Bearer Token*** i nalepiti u ponuđeno polje. 
    3. **Za svaki zahtev** - u samom zahtevu pod karticom *Authorization*, odabrati tip ***Bearer Token*** i nalepiti u ponuđeno polje.
