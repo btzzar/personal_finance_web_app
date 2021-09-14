@@ -814,6 +814,36 @@
 						}
 					]
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{API_USER_AUTH_TOKEN}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
@@ -2347,6 +2377,409 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "POST a new login request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": [
+						{
+							"name": "POST a new login request with invalid password",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"a@a.com\",\r\n    \"password\": \"test1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/auth/user/login",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"auth",
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "22"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"16-fEc1WArHk5yVgGP5ekfvNKEEvfU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 30 Aug 2021 18:34:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Invalid user password."
+						},
+						{
+							"name": "POST a new login request with invalid email",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"a@1a.com\",\r\n    \"password\": \"test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/auth/user/login",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"auth",
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "9"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"9-0gXL1ngzMqISxa6S1zx3F4wtLyg\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 30 Aug 2021 18:40:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Not Found"
+						},
+						{
+							"name": "POST a new login request with valid data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"a@a.com\",\r\n    \"password\": \"test\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/auth/user/login",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"auth",
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "506"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1fa-YMOH2H32Q6b9+sBMn17NryznvJE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 30 Aug 2021 18:41:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"authToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImlkZW50aXR5IjoiYUBhLmNvbSIsImlhdCI6MTYzMDM0ODg4MiwiZXhwIjoxNjMwMzQ5MDAyLCJpc3MiOiJsb2NhbGhvc3QifQ.QHW31s7UHpa4dbyQWBs-9z9xn9rBXAuhVmw3o-og4ZynnRXKgi2Uj_mzfkKfP-nsbWf3_Mr5j0FTHHMeFOPiRbdL1GUJpFFNHHIA4noF8iN-c-PuL0fgICL44dvaqpUaai0aqYj1uw7Sbc5iT5snwkyWPLb45VbawDqakb_T2PkBVCSK3WJqijGR3wUmiNj2zY_CjDoJNKIuqCyZkcUd2uDist86mBbgSkg1UcjqNFMdVHd_c9TAkCk0qcCpskLrsSlh3HRaIIidqZGf0uTY2dRKpTrtJTc0zZThIodoWrZh3ovWZnZgmQDpOc7J9s_q9OEu3VFGZV6g_hxYotvFGA\"\n}"
+						}
+					]
+				},
+				{
+					"name": "POST a new token refresh request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": [
+						{
+							"name": "Post a new token refresh request with no Token",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"refreshToken\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/auth/user/refresh",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"auth",
+										"user",
+										"refresh"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-xnXyNLUHmOEF64WAWgWQDNhZTi4\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 11 Sep 2021 12:39:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Invalid refresh token: jwt must be provided"
+						},
+						{
+							"name": "Post a new token refresh request with invalid token",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"refreshToken\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/auth/user/refresh",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"auth",
+										"user",
+										"refresh"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24-Cv7RxFtqE6HLKrPqagpaeWKpU2Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 11 Sep 2021 12:39:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Invalid refresh token: jwt malformed"
+						}
+					]
+				},
+				{
+					"name": "GET an OK Message",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": null
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		}
 	],
 	"event": [
@@ -2373,6 +2806,10 @@
 		{
 			"key": "API_URL",
 			"value": "http://localhost:40090"
+		},
+		{
+			"key": "API_USER_AUTH_TOKEN",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImlkZW50aXR5IjoiYUBhLmNvbSIsImlhdCI6MTYzMDQyNzc3NCwiZXhwIjoxNjMxNTA3Nzc0LCJpc3MiOiJsb2NhbGhvc3QifQ.eGbM1doNTHdLoMCkrMJ08rgLTT70sdJldGNugOylHGELksXUdbI37S3NonwTlIR6GVzWzIqwUO3OSzQ4tNrVkGzQfKm08tZDdMNMSwxCnvM7EZWyCZMSnMrzp9xEMnAH6sH7-UClsy7fM1JG6whIEFkl3JiHRmYuoCr2NndDMaGsHfPZ5pTEKZRAskPU98Zl-sc-O6rJBEKIOA2WjagRp6-JXMw0PWsWc69O1wkhnLg1di-usmNNqVuZUBXSG5yTeg6yGj65P_VvV6_EVV5CGblUHoQztFVlccFl1LsB7YCLRVaU1vyxTgQP9tCVbLWsy1o_dSEFBd3lukF4sgw0tQ"
 		}
 	]
 }
