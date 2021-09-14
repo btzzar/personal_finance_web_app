@@ -206,3 +206,12 @@ Tabela **income** predstavlja spisak svih **prihoda** računa. Sadrži polja:
 ---
 
 Fajl u JSON formatu se nalazi na lokaciji [02-resources/Testiranje back-end dela (API)](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/Testiranje%20back-end%20dela%20(API).postman_collection.json).
+
+Za potrebe testiranja potrebno je: 
+
+1. Izvršiti logovanje sa validnim podacima - primer Auth/POST a new login request with valid data
+2. Kopirati vrednost ključa "authToken" iz odgovora
+3. Nalepiti ključ na neku od sledećih lokacija
+   1. **Samo jednom** - u korenom folderu, pod karticom *Authorization*, odabrati tip ***Bearer Token*** i nalepiti u ponuđeno polje.
+   2. **Za svaki folder** - u folderu u kom se dešava željeni zahtev pod karticom *Authorization*, odabrati tip ***Bearer Token*** i nalepiti u ponuđeno polje. 
+   3. **Za svaki zahtev** - u samom zahtevu pod karticom *Authorization*, odabrati tip ***Bearer Token*** i nalepiti u ponuđeno polje.
