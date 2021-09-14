@@ -57,7 +57,6 @@ export default class AuthController extends BaseController{
         res.send({
             authToken: authToken,
             refreshToken: refreshToken,
-            id: authTokenData.id
         });
 
                
@@ -92,7 +91,6 @@ export default class AuthController extends BaseController{
             res.send({
                 authToken: authToken,
                 refreshToken: null,
-                id: newTokenData.id
             });
         }
         catch(e){
