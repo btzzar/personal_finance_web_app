@@ -10,7 +10,7 @@
 
 
 
-![](C:\Users\Anon\Desktop\personal_finance_app\personal_fin_app\02-resources\db model\db_sketch_final.jpg)
+![](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/db%20model/db_sketch_final.jpg?raw=true)
 
 - Tabela **user** se koristi za upis svih registrovanih korisnika aplikacije. Sadrži polja:
 
@@ -72,7 +72,7 @@ Tabela **income** predstavlja spisak svih **prihoda** računa. Sadrži polja:
 
 ---
 
-![](C:\Users\Anon\Desktop\personal_finance_app\personal_fin_app\02-resources\diagrams\Use-Case diagram.png)
+![](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/diagrams/Use-Case%20diagram.png?raw=true)
 
 
 
@@ -115,7 +115,7 @@ Tabela **income** predstavlja spisak svih **prihoda** računa. Sadrži polja:
 
 - Dohvatanje svih računa jednog korisnika.
 
-![](C:\Users\Anon\Desktop\personal_finance_app\personal_fin_app\02-resources\diagrams\seq-user-acc.png)
+![](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/diagrams/seq-user-acc.png?raw=true)
 
 
 
@@ -123,7 +123,7 @@ Tabela **income** predstavlja spisak svih **prihoda** računa. Sadrži polja:
 
 - Dohvatanje svih transakcija jednog računa.
 
-  ![](C:\Users\Anon\Desktop\personal_finance_app\personal_fin_app\02-resources\diagrams\seqDiag-transactions.png)
+  ![](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/diagrams/seqDiag-transactions.png?raw=true)
 
 
 
@@ -135,7 +135,7 @@ Tabela **income** predstavlja spisak svih **prihoda** računa. Sadrži polja:
 
 - Registracija korisnika
 
-  ![](C:\Users\Anon\Desktop\personal_finance_app\personal_fin_app\02-resources\diagrams\activity-reg.png)
+  ![](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/diagrams/activity-reg.png?raw=true)
 
   
 
@@ -143,7 +143,7 @@ Tabela **income** predstavlja spisak svih **prihoda** računa. Sadrži polja:
 
 - Prijava korisnika
 
-  ![](C:\Users\Anon\Desktop\personal_finance_app\personal_fin_app\02-resources\diagrams\activity-log.png)
+  ![](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/diagrams/activity-log.png?raw=true)
 
 
 
@@ -159,14 +159,38 @@ Tabela **income** predstavlja spisak svih **prihoda** računa. Sadrži polja:
 
   
 
-![](C:\Users\Anon\Desktop\personal_finance_app\personal_fin_app\02-resources\design mockup\Register-mockup.png)
+![](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/design%20mockup/Register-mockup.png?raw=true)
 
 
 
 
 
-- Stranica za prjavu korisnika
+- Stranica za prijavu korisnika
 
   
 
-![](C:\Users\Anon\Desktop\personal_finance_app\personal_fin_app\02-resources\design mockup\Register-mockup.png)
+![](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/design%20mockup/Login-mockup.png?raw=true)
+
+- Stranica za pregled svih računa prijavljenog korisnika i dodavanje računa
+
+  
+
+![](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/design%20mockup/accounts-mockup.png?raw=true)
+
+
+
+- Stranica za pregled svih transakcija odabranog računa i grafikona prihoda i rashoda
+
+  
+
+![](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/design%20mockup/show-transactions.png?raw=true)
+
+
+
+
+
+- Stranica za pregled svih transakcija odabranog računa i dodavanje transakcije
+
+  
+
+![](https://github.com/btzzar/personal_finance_web_app/blob/master/02-resources/design%20mockup/add-transaction.png?raw=true)
